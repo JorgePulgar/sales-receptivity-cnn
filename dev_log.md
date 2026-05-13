@@ -34,6 +34,22 @@ pip install -r requirements.txt
 
 ---
 
+### Problem: streamlit 1.31.1 conflicts with TF 2.10.1 via protobuf
+
+**What happened:** `pip install -r requirements.txt` failed with a dependency conflict:
+
+```
+tensorflow 2.10.1 depends on protobuf<3.20
+streamlit 1.31.1 depends on protobuf>=3.20
+```
+
+These are mutually exclusive — no single protobuf version satisfies both.
+
+**Solution:** Downgraded streamlit to `1.18.1`, the last version before the
+`protobuf>=3.20` requirement was introduced. No functional difference for this project.
+
+---
+
 ### Decision: GPU work deferred to a separate machine
 
 **Context:** The development machine has no GPU. The GPU (NVIDIA, Windows) is on a

@@ -29,7 +29,7 @@ python-multipart==0.0.9
 pydantic==2.6.1
 
 # Demo
-streamlit==1.31.1
+streamlit==1.18.1
 
 # Jupyter
 jupyter==1.0.0
