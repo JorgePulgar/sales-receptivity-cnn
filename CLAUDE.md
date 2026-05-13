@@ -85,7 +85,9 @@ final quality, not placeholders.
 - Do not commit heavy `models/*.keras` to git (use Git LFS only if strictly
   needed; better avoid it in this project)
 - `.gitignore` must include: `data/`, `models/*.keras`, `models/*.h5`,
-  `.ipynb_checkpoints/`, `__pycache__/`, `venv/`, `.env`
+  `.ipynb_checkpoints/`, `__pycache__/`, `*.pyc`, `venv/`, `.env`, `.kaggle/`
+- Do NOT ignore `models/histories/*.json`: those training histories must be
+  tracked so plots can be regenerated in Notebook 4 without retraining
 
 ## Dependencies
 
