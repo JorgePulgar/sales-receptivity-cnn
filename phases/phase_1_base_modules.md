@@ -9,7 +9,7 @@ import these, never duplicate logic.
 
 ### `src/data/loader.py`
 
-- [ ] `load_fer2013(data_dir: Path) -> Tuple[np.ndarray, ...]`
+- [x] `load_fer2013(data_dir: Path) -> Tuple[np.ndarray, ...]`
   - Reads FER2013 from `data/raw/`
   - FER2013 from Kaggle (`msambare/fer2013`) comes as folder structure
     `train/<emotion>/*.jpg` and `test/<emotion>/*.jpg`
@@ -20,14 +20,14 @@ import these, never duplicate logic.
   - Images returned as `(n, 48, 48)` uint8 grayscale
   - Labels returned as integer class indices (0–6) following the order in
     `config.EMOTION_LABELS`
-- [ ] `to_rgb(images: np.ndarray) -> np.ndarray`
+- [x] `to_rgb(images: np.ndarray) -> np.ndarray`
   - Converts `(n, H, W)` or `(n, H, W, 1)` to `(n, H, W, 3)` by channel duplication
-- [ ] `resize_batch(images: np.ndarray, target_size: Tuple[int, int]) -> np.ndarray`
+- [x] `resize_batch(images: np.ndarray, target_size: Tuple[int, int]) -> np.ndarray`
   - Uses `cv2.resize` per image
 
 ### `src/data/augmentation.py`
 
-- [ ] `build_augmentation_pipeline()` returning a Keras 2.10
+- [x] `build_augmentation_pipeline()` returning a Keras 2.10
   `ImageDataGenerator` with:
   - `rotation_range=15`
   - `width_shift_range=0.1`
@@ -36,12 +36,12 @@ import these, never duplicate logic.
   - `horizontal_flip=True`
   - `brightness_range=(0.8, 1.2)`
   - `fill_mode='nearest'`
-- [ ] Parameter `for_minority_classes: bool = False` that, if True, returns a
+- [x] Parameter `for_minority_classes: bool = False` that, if True, returns a
   stronger pipeline (rotation 25, zoom 0.2, etc.) for focused augmentation
 
 ### `src/models/cnn_custom.py`
 
-- [ ] `build_cnn_custom(input_shape: Tuple[int, int, int] = (48, 48, 1),
+- [x] `build_cnn_custom(input_shape: Tuple[int, int, int] = (48, 48, 1),
    num_classes: int = 7) -> tf.keras.Model`
 - Architecture:
   ```
@@ -59,25 +59,25 @@ import these, never duplicate logic.
 
 ### `src/models/mobilenet_finetune.py`
 
-- [ ] `build_mobilenet_head(input_shape: Tuple[int, int, int] = (64, 64, 3),
+- [x] `build_mobilenet_head(input_shape: Tuple[int, int, int] = (64, 64, 3),
    num_classes: int = 7) -> tf.keras.Model`
   - MobileNetV2 with `weights='imagenet'`, `include_top=False`, base frozen
   - GlobalAveragePooling2D → Dense(256) + ReLU + Dropout(0.5) → Dense(num_classes) + Softmax
   - Compiles with Adam(lr=1e-3)
-- [ ] `unfreeze_top_layers(model: tf.keras.Model, n_layers: int = 30) -> tf.keras.Model`
+- [x] `unfreeze_top_layers(model: tf.keras.Model, n_layers: int = 30) -> tf.keras.Model`
   - Unfreezes the top `n_layers` of the MobileNetV2 base
   - Recompiles with Adam(lr=1e-5)
   - Returns the same model (modified in place)
 
 ### `src/models/trainer.py`
 
-- [ ] `get_default_callbacks(model_name: str, models_dir: Path) -> List[Callback]`
+- [x] `get_default_callbacks(model_name: str, models_dir: Path) -> List[Callback]`
   - `EarlyStopping(monitor='val_loss', patience=7, restore_best_weights=True)`
   - `ReduceLROnPlateau(monitor='val_loss', patience=3, factor=0.5, min_lr=1e-7)`
   - `ModelCheckpoint(models_dir / f'{model_name}_best.keras', save_best_only=True)`
-- [ ] `train_model(model, train_data, val_data, class_weights, epochs, callbacks, batch_size) -> History`
+- [x] `train_model(model, train_data, val_data, class_weights, epochs, callbacks, batch_size) -> History`
   - Returns the Keras `History` object
-- [ ] `save_history(history, path: Path) -> None`
+- [x] `save_history(history, path: Path) -> None`
   - Serializes `history.history` to JSON
 
 ## Validation
