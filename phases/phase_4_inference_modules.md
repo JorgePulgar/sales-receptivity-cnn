@@ -9,59 +9,55 @@ demo. Must work with a dummy model for testing before training is finished.
 
 ### `src/inference/face_detector.py`
 
-- Wrapper over OpenCV Haar Cascades (no external models to download — the
-  cascade XML ships with `opencv-python`)
-- Class `FaceDetector`:
+- [ ] Class `FaceDetector`:
   - `__init__(self, scale_factor: float = 1.1, min_neighbors: int = 5,
      min_size: Tuple[int, int] = (30, 30))`
   - Loads `cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')`
-  - `detect(self, image: np.ndarray) -> List[Tuple[int, int, int, int]]`
-    returning bounding boxes `(x, y, w, h)`
-  - `detect_largest(self, image: np.ndarray) -> Optional[Tuple[int, int, int, int]]`
-    returning only the largest detected face (most relevant during a
-    sales call: the person on screen)
-  - `extract_roi(self, image: np.ndarray, bbox: Tuple[int, int, int, int],
-     target_size: Tuple[int, int], to_grayscale: bool = True) -> np.ndarray`
-    crops and resizes the face ROI
+- [ ] `detect(self, image: np.ndarray) -> List[Tuple[int, int, int, int]]`
+  returning bounding boxes `(x, y, w, h)`
+- [ ] `detect_largest(self, image: np.ndarray) -> Optional[Tuple[int, int, int, int]]`
+  returning only the largest detected face (most relevant during a
+  sales call: the person on screen)
+- [ ] `extract_roi(self, image: np.ndarray, bbox: Tuple[int, int, int, int],
+   target_size: Tuple[int, int], to_grayscale: bool = True) -> np.ndarray`
+  crops and resizes the face ROI
 
 ### `src/inference/emotion_classifier.py`
 
-- Class `EmotionClassifier`:
+- [ ] Class `EmotionClassifier`:
   - `__init__(self, model_path: Path, input_size: Tuple[int, int],
      use_rgb: bool, labels: List[str] = config.EMOTION_LABELS)`
   - Loads the Keras model from disk at construction time
-  - `predict(self, face_roi: np.ndarray) -> Tuple[str, float, np.ndarray]`
-    returning `(emotion_label, confidence, probabilities_vector)`
-  - `predict_batch(self, face_rois: np.ndarray) -> List[Tuple[str, float, np.ndarray]]`
-    for video processing
+- [ ] `predict(self, face_roi: np.ndarray) -> Tuple[str, float, np.ndarray]`
+  returning `(emotion_label, confidence, probabilities_vector)`
   - Handles preprocessing internally: normalization, channel duplication
     if `use_rgb=True`, batch axis
+- [ ] `predict_batch(self, face_rois: np.ndarray) -> List[Tuple[str, float, np.ndarray]]`
+  for video processing
 
 ### `src/inference/receptivity_mapper.py`
 
-- Constants imported from `src.config`:
-  `EMOTION_TO_SCORE`, `EMOTION_TO_SIGNAL`
-- `map_emotion_to_signal(emotion: str) -> str` returns text like
+- [ ] `map_emotion_to_signal(emotion: str) -> str` returns text like
   "high interest", "passive attention", "active resistance"
-- `map_emotion_to_score(emotion: str) -> float` simple lookup
-- Class `ReceptivityIndex`:
+- [ ] `map_emotion_to_score(emotion: str) -> float` simple lookup
+- [ ] Class `ReceptivityIndex`:
   - `__init__(self, window_size: int = 10, weight_by_confidence: bool = True)`
   - `update(self, emotion: str, confidence: float) -> float`
     appends to internal buffer, returns current weighted moving average
   - `get_current_index(self) -> float`
   - `reset(self) -> None`
   - `get_history(self) -> List[float]` for plotting
-- Behavior on no face detected: the caller should NOT call `update`; the
-  index keeps its last value. Document this contract in the docstring.
+  - Behavior on no face detected: the caller should NOT call `update`; the
+    index keeps its last value. Document this contract in the docstring.
 
 ### Tests
 
-Create `tests/test_inference.py` with:
-- Test for `FaceDetector` using a known sample image with a face
-- Test for `ReceptivityIndex`: feed a sequence of emotions, assert the
-  index moves in the expected direction
-- Test for `EmotionClassifier` skipped (`@pytest.mark.skipif` if no model
-  file exists), or use a dummy random model
+- [ ] `tests/test_inference.py`:
+  - Test for `FaceDetector` using a known sample image with a face
+  - Test for `ReceptivityIndex`: feed a sequence of emotions, assert the
+    index moves in the expected direction
+  - Test for `EmotionClassifier` skipped (`@pytest.mark.skipif` if no model
+    file exists), or use a dummy random model
 
 ## Validation
 
