@@ -1,4 +1,4 @@
-data/
+/data/
 models/*.keras
 models/*.h5
 .ipynb_checkpoints/
