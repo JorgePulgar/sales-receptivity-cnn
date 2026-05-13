@@ -6,7 +6,7 @@ Project skeleton ready to start coding. No business logic yet.
 
 ## Tasks
 
-- Create folder structure:
+- [x] Create folder structure:
   ```
   project/
   ├── notebooks/
@@ -23,20 +23,20 @@ Project skeleton ready to start coding. No business logic yet.
   │   └── processed/
   └── tests/
   ```
-- Add `__init__.py` files where needed inside `src/`
-- Create Python virtual environment and install `requirements.txt`
-- Verify GPU detection with a small script:
+- [x] Add `__init__.py` files where needed inside `src/`
+- [x] Create Python virtual environment and install `requirements.txt`
+- [x] Verify GPU detection with a small script:
   ```python
   import tensorflow as tf
   print("TF version:", tf.__version__)
   print("GPUs:", tf.config.list_physical_devices('GPU'))
   ```
-- Configure Kaggle API:
+- [x] Configure Kaggle API:
   - Place `kaggle.json` in `%USERPROFILE%\.kaggle\kaggle.json` on Windows
   - Verify with `kaggle datasets list -s fer2013`
-- Download FER2013 to `data/raw/`:
+- [x] Download FER2013 to `data/raw/`:
   - `kaggle datasets download -d msambare/fer2013 -p data/raw/ --unzip`
-- Create `.gitignore` with:
+- [x] Create `.gitignore` with:
   ```
   data/
   models/*.keras
@@ -50,14 +50,14 @@ Project skeleton ready to start coding. No business logic yet.
   ```
   Note: `models/histories/*.json` is intentionally NOT ignored — Notebook 4
   regenerates training plots from these files without retraining.
-- Create `src/config.py` with:
+- [x] Create `src/config.py` with:
   - Path constants (`PROJECT_ROOT`, `DATA_DIR`, `MODELS_DIR`, etc.) using `pathlib.Path`
   - `EMOTION_LABELS = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']`
   - `EMOTION_TO_SCORE` dict (the mapping from the case study)
   - `EMOTION_TO_SIGNAL` dict with the commercial signal text
   - Default hyperparameters: `IMG_SIZE_CUSTOM = (48, 48)`, `IMG_SIZE_MOBILENET = (64, 64)`,
     `BATCH_SIZE = 64`, `RANDOM_SEED = 42`
-- Initialize git repo
+- [x] Initialize git repo
 
 ## Validation
 
