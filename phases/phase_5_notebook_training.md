@@ -49,7 +49,7 @@ trained models and training histories.
   - Markdown: why we save both (model for inference, history for plotting
     in Notebook 4 without retraining)
 
-- [ ] Section 4.1 — Build MobileNetV2 head (Model B)
+- [x] Section 4.1 — Build MobileNetV2 head (Model B)
   - `build_mobilenet_head(input_shape=(64, 64, 3))`
   - `model.summary()` and count trainable vs non-trainable params
   - Markdown: only the top dense layers train in this stage; the MobileNetV2
