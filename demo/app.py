@@ -72,6 +72,32 @@ if mode == "Recorded video":
         "Upload a sales recording", type=["mp4", "avi", "mov"]
     )
 
+    if uploaded is not None:
+        suffix = Path(uploaded.name).suffix
+        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+            tmp.write(uploaded.read())
+            tmp_path = Path(tmp.name)
+
+        cap = cv2.VideoCapture(str(tmp_path))
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
+        sample_step = max(1, int(fps))
+        sample_indices = list(range(0, total_frames, sample_step))
+        n_samples = len(sample_indices)
+
+        progress_bar = st.progress(0, text="Analysing frames…")
+        records: list[dict] = []
+        face_misses = 0
+        key_frames: dict[int, tuple] = {}
+
+        for step, frame_idx in enumerate(sample_indices):
+            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
+            ret, frame = cap.read()
+            progress_bar.progress((step + 1) / n_samples)
+
+        cap.release()
+        tmp_path.unlink(missing_ok=True)
+
 # ══════════════════════════════════════════════════════════════════════════════
 # MODE 2 — Webcam
 # ══════════════════════════════════════════════════════════════════════════════
