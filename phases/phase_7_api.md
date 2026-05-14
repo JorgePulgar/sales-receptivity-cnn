@@ -75,7 +75,7 @@ Use `TestClient` from `fastapi.testclient` (sync). Do NOT use
 - [x] `test_health()` — GET /health returns 200 with `model_loaded=True`
 - [x] `test_predict_image_valid()` — POST a known test-set image, expect 200
   and a valid `PredictionResponse`
-- [ ] `test_predict_image_no_face()` — POST a black image, expect
+- [x] `test_predict_image_no_face()` — POST a black image, expect
   `face_detected=False`
 - [ ] `test_predict_image_invalid()` — POST a text file, expect 422
 

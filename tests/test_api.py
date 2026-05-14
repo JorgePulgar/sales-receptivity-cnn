@@ -68,3 +68,13 @@ def test_predict_image_valid(client):
     assert "probabilities" in data
     assert "face_detected" in data
     assert "inference_time_ms" in data
+
+
+def test_predict_image_no_face(client):
+    image_bytes = _encode_jpeg(np.zeros((100, 100, 3), dtype=np.uint8))
+    response = client.post(
+        "/predict/image",
+        files={"file": ("black.jpg", io.BytesIO(image_bytes), "image/jpeg")},
+    )
+    assert response.status_code == 200
+    assert response.json()["face_detected"] is False
