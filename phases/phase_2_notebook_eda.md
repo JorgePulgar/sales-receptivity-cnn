@@ -46,7 +46,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
     decision (most likely: keep as-is, FER2013 is a known benchmark with
     these quirks)
 
-- [ ] Section 5 — Mean intensity heatmap per class
+- [x] Section 5 — Mean intensity heatmap per class
   - For each class, compute mean image (average over all training images of
     that class)
   - Plot a 7-image grid of mean faces
