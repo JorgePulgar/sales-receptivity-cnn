@@ -25,7 +25,7 @@ model with documented justification. Produce the receptivity index simulation.
   - Markdown per plot: diagnose overfitting (large train-val gap), underfitting
     (both curves low) or healthy convergence
 
-- [ ] Section 3 — Test set predictions
+- [x] Section 3 — Test set predictions
   - Predict probabilities on the test set for both models
   - Compute predicted class via argmax
   - Save predictions in memory for the rest of the notebook
