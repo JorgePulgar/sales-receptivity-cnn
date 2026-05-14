@@ -72,7 +72,7 @@ Use `TestClient` from `fastapi.testclient` (sync). Do NOT use
 `httpx.AsyncClient` + `pytest-asyncio` here — `pytest-asyncio` is not in
 `requirements.txt` and the sync client is sufficient for these endpoints:
 
-- [ ] `test_health()` — GET /health returns 200 with `model_loaded=True`
+- [x] `test_health()` — GET /health returns 200 with `model_loaded=True`
 - [ ] `test_predict_image_valid()` — POST a known test-set image, expect 200
   and a valid `PredictionResponse`
 - [ ] `test_predict_image_no_face()` — POST a black image, expect
