@@ -37,10 +37,10 @@ demo. Must work with a dummy model for testing before training is finished.
 
 ### `src/inference/receptivity_mapper.py`
 
-- [ ] `map_emotion_to_signal(emotion: str) -> str` returns text like
+- [x] `map_emotion_to_signal(emotion: str) -> str` returns text like
   "high interest", "passive attention", "active resistance"
-- [ ] `map_emotion_to_score(emotion: str) -> float` simple lookup
-- [ ] Class `ReceptivityIndex`:
+- [x] `map_emotion_to_score(emotion: str) -> float` simple lookup
+- [x] Class `ReceptivityIndex`:
   - `__init__(self, window_size: int = 10, weight_by_confidence: bool = True)`
   - `update(self, emotion: str, confidence: float) -> float`
     appends to internal buffer, returns current weighted moving average
