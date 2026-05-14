@@ -55,7 +55,7 @@ model with documented justification. Produce the receptivity index simulation.
   - Render the table
   - Markdown: discuss tradeoffs
 
-- [ ] Section 7 — Error analysis
+- [x] Section 7 — Error analysis
   - For the better model, collect misclassified test examples
   - For each pair (true class, predicted class) that is most frequent, show
     a 4-image grid of examples
