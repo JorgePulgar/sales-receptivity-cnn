@@ -36,7 +36,7 @@ trained models and training histories.
   - Markdown: callbacks explained briefly (early stopping prevents overfitting,
     LR reduction helps fine-grained convergence)
 
-- [ ] Section 3.3 — Train custom CNN
+- [x] Section 3.3 — Train custom CNN
   - 50 epochs max, batch size 64
   - Pass `class_weight=class_weights`
   - Capture `history`
