@@ -73,7 +73,7 @@ Use `TestClient` from `fastapi.testclient` (sync). Do NOT use
 `requirements.txt` and the sync client is sufficient for these endpoints:
 
 - [x] `test_health()` — GET /health returns 200 with `model_loaded=True`
-- [ ] `test_predict_image_valid()` — POST a known test-set image, expect 200
+- [x] `test_predict_image_valid()` — POST a known test-set image, expect 200
   and a valid `PredictionResponse`
 - [ ] `test_predict_image_no_face()` — POST a black image, expect
   `face_detected=False`
