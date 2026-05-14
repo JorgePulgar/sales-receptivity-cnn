@@ -62,7 +62,7 @@ model with documented justification. Produce the receptivity index simulation.
   - Markdown: are there systematic patterns? Lighting, occlusion, ambiguous
     expressions?
 
-- [ ] Section 8 — Grad-CAM visualization
+- [x] Section 8 — Grad-CAM visualization
   - Use `tf-keras-vis` (`GradcamPlusPlus`) on the better model
   - For each of the 7 emotions, pick 1 correctly classified test example
     and produce a Grad-CAM overlay
