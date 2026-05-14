@@ -77,7 +77,7 @@ Use `TestClient` from `fastapi.testclient` (sync). Do NOT use
   and a valid `PredictionResponse`
 - [x] `test_predict_image_no_face()` — POST a black image, expect
   `face_detected=False`
-- [ ] `test_predict_image_invalid()` — POST a text file, expect 422
+- [x] `test_predict_image_invalid()` — POST a text file, expect 422
 
 ## Validation
 

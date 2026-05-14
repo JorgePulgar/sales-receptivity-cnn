@@ -78,3 +78,12 @@ def test_predict_image_no_face(client):
     )
     assert response.status_code == 200
     assert response.json()["face_detected"] is False
+
+
+def test_predict_image_invalid(client):
+    payload = io.BytesIO(b"this is not an image file")
+    response = client.post(
+        "/predict/image",
+        files={"file": ("bad.txt", payload, "text/plain")},
+    )
+    assert response.status_code == 422
