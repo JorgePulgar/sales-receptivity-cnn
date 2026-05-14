@@ -31,5 +31,8 @@ st.sidebar.markdown(
 )
 
 mode = st.sidebar.selectbox("Mode", ["Recorded video", "Webcam"])
+window_size = st.sidebar.slider(
+    "Receptivity window size", min_value=5, max_value=30, value=10
+)
 
 st.title("Sales Receptivity CNN Demo")
