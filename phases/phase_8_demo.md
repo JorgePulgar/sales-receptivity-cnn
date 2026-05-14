@@ -9,7 +9,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 
 ### `demo/app.py` — Architecture
 
-- [ ] Top-level comment documenting the decision to import `src.inference`
+- [x] Top-level comment documenting the decision to import `src.inference`
   directly (not through the FastAPI endpoint), to avoid running two processes
   and keep the demo self-contained for the class presentation.
 
