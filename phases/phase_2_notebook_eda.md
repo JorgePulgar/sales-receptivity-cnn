@@ -24,7 +24,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
   - Markdown explains why we use the existing FER2013 train/test split and
     carve a validation set from train
 
-- [ ] Section 2 — Class distribution
+- [x] Section 2 — Class distribution
   - Bar plot of class counts in train / val / test
   - Table with absolute counts and percentages per class
   - Markdown discussion: which classes are minority (Disgust ~600 vs
