@@ -9,7 +9,7 @@ duplicated logic.
 
 ### `src/api/main.py`
 
-- [ ] FastAPI app with lifespan event that loads the selected model at startup
+- [x] FastAPI app with lifespan event that loads the selected model at startup
   (so the load happens once, not per request)
 - [ ] Instantiate `FaceDetector`, `EmotionClassifier` and a `ReceptivityIndex`
   per session
