@@ -37,7 +37,7 @@ model with documented justification. Produce the receptivity index simulation.
   - Markdown: highlight expected confusions from the EDA (Fear↔Surprise,
     Sad↔Neutral, Angry↔Disgust). Confirm or contradict the hypothesis
 
-- [ ] Section 5 — Classification report
+- [x] Section 5 — Classification report
   - `sklearn.metrics.classification_report(..., output_dict=True)` for each model
   - Render as a DataFrame with precision, recall, F1 and support per class
   - Markdown: identify worst-performing classes (likely Disgust, Fear) and
