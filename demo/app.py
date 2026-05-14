@@ -303,7 +303,16 @@ elif mode == "Webcam":
             bbox = cam_detector.detect_largest(frame)
             if bbox is None:
                 st.warning("No face detected — try better lighting or move closer.")
+                st.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             else:
+                x, y, w, h = bbox
+                display = frame.copy()
+                cv2.rectangle(display, (x, y), (x + w, y + h), (0, 220, 80), 2)
+                st.image(
+                    cv2.cvtColor(display, cv2.COLOR_BGR2RGB),
+                    caption="Detected face",
+                    use_column_width=True,
+                )
                 roi = cam_detector.extract_roi(
                     frame, bbox, _input_size, to_grayscale=not _use_rgb
                 )

@@ -49,7 +49,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 - [x] `st.camera_input("Take a photo")` capture
 - [x] On capture: detect face → predict → update receptivity index stored in
   `st.session_state`
-- [ ] Display captured photo with bounding box overlaid (`cv2.rectangle` + `st.image`)
+- [x] Display captured photo with bounding box overlaid (`cv2.rectangle` + `st.image`)
 - [ ] Predicted emotion + confidence
 - [ ] Current receptivity index as `st.metric`
 - [ ] Cumulative emotion histogram (`st.bar_chart`)
