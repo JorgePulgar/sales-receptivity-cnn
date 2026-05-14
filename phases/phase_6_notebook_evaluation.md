@@ -82,7 +82,7 @@ model with documented justification. Produce the receptivity index simulation.
     coherently with predicted emotions. Connects directly to the business
     case
 
-- [ ] Section 10 — Final model selection
+- [x] Section 10 — Final model selection
   - Markdown cell with weighted scoring:
     - Test accuracy (40%)
     - F1 macro (30%)
