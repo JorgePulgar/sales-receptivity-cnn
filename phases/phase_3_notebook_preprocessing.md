@@ -7,7 +7,7 @@ weights. Visualize augmentation effects.
 
 ## Tasks
 
-- [ ] Section 0 — Introduction
+- [x] Section 0 — Introduction
   - Markdown: objective. Mention that we will produce two versions of the data
     (grayscale 48×48 for the custom CNN, RGB 64×64 for MobileNetV2) and save
     them to `data/processed/` for fast reload in the training notebook.
