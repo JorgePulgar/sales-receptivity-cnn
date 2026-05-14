@@ -100,7 +100,7 @@ model with documented justification. Produce the receptivity index simulation.
     - Whether 65-72% accuracy is acceptable for a coaching tool (vs deterministic decision-making)
     - Proposed future improvements (multimodal voice + face, AffectNet, TFLite deployment, fine-tuning on real sales call data)
 
-- [ ] Section 12 — Summary
+- [x] Section 12 — Summary
   - Standard closing markdown.
 
 ## Validation
