@@ -57,7 +57,7 @@ duplicated logic.
   - Returns `SessionResponse`
   - Use a streaming response only if needed for large files; otherwise
     process fully and return at once
-- [ ] `GET /health`
+- [x] `GET /health`
   - Returns `HealthResponse`
 
 ### Error handling

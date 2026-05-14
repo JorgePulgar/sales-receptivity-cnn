@@ -127,3 +127,25 @@ def _run_inference(image: np.ndarray) -> PredictionResponse:
         bbox=bbox,
         inference_time_ms=elapsed_ms,
     )
+
+
+@app.get("/health", response_model=HealthResponse)
+async def health() -> HealthResponse:
+    """Return API status and a warm-up inference latency measured on a dummy input."""
+    if _classifier is None:
+        return HealthResponse(
+            status="ok",
+            model_loaded=False,
+            model_path="",
+            inference_time_ms=0.0,
+        )
+    dummy = np.zeros((48, 48), dtype=np.uint8)
+    t0 = time.perf_counter()
+    _classifier.predict(dummy)
+    elapsed_ms = (time.perf_counter() - t0) * 1000
+    return HealthResponse(
+        status="ok",
+        model_loaded=True,
+        model_path=str(_model_path),
+        inference_time_ms=elapsed_ms,
+    )
