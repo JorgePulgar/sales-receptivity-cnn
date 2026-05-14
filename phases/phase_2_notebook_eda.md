@@ -17,7 +17,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
     produced as output. Mention the connection with the business case (we need
     to know the data before deciding mapping and augmentation strategy).
 
-- [ ] Section 1 — Setup and data loading
+- [x] Section 1 — Setup and data loading
   - Set random seeds
   - Import `src.data.loader.load_fer2013`
   - Load FER2013 and print shapes
