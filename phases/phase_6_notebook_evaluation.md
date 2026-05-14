@@ -11,7 +11,7 @@ model with documented justification. Produce the receptivity index simulation.
   - Markdown: objective. List what will be produced (curves, confusion matrices,
     classification reports, Grad-CAM, receptivity simulation, final selection).
 
-- [ ] Section 1 — Setup
+- [x] Section 1 — Setup
   - Imports
   - Load test data from `data/processed/fer2013_gray.npz` and
     `data/processed/fer2013_rgb64.npz`
