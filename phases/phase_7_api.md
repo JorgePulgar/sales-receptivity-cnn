@@ -32,7 +32,7 @@ duplicated logic.
   - `time_in_each_state: Dict[str, float]`  # emotion → seconds (or frame count)
   - `peak_frame: int`
   - `valley_frame: int`
-- [ ] `SessionResponse`:
+- [x] `SessionResponse`:
   - `frames_analysis: List[FrameAnalysis]`
   - `receptivity_index_over_time: List[float]`
   - `session_summary: SessionSummary`
