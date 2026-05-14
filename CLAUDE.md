@@ -97,9 +97,9 @@ final quality, not placeholders.
 
 ## Git workflow
 
-- Every discrete task gets its own commit. Do not batch unrelated work into a
-  single commit. For notebooks, each section listed in the phase file is a
-  separate task and therefore a separate commit.
+- Every task listed in a phase file (`phases/*.md`) gets its own commit.
+  Do not batch multiple tasks into a single commit, regardless of how small
+  they are.
 - Each commit that completes a phase task must also mark the corresponding
   `[ ]` checkbox as `[x]` in the phase file in the same commit. Never let
   checkboxes fall out of sync with the actual work.
