@@ -51,7 +51,7 @@ weights. Visualize augmentation effects.
     Why this is preferred over aggressive oversampling for FER2013 (avoids
     duplicating low-quality minority samples)
 
-- [ ] Section 7 — Augmentation pipeline configuration
+- [x] Section 7 — Augmentation pipeline configuration
   - Import `src.data.augmentation.build_augmentation_pipeline`
   - Build the default generator
   - Markdown: parameter justification — rotations within head-tilt range,
