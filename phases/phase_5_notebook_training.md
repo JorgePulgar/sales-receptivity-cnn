@@ -17,7 +17,7 @@ trained models and training histories.
     result. If no GPU, print a warning but continue.
   - Imports
 
-- [ ] Section 2 — Load preprocessed data
+- [x] Section 2 — Load preprocessed data
   - Load `data/processed/fer2013_gray.npz`
   - Load `data/processed/fer2013_rgb64.npz`
   - Load `data/processed/class_weights.json`
