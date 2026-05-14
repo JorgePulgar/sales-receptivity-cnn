@@ -11,7 +11,7 @@ trained models and training histories.
   - Markdown: objective. Mention that we train two models for comparison
     and that all evaluation happens in Notebook 4. Verify GPU here.
 
-- [ ] Section 1 — Setup
+- [x] Section 1 — Setup
   - Set all seeds (numpy, tensorflow, random)
   - Verify GPU with `tf.config.list_physical_devices('GPU')` and print
     result. If no GPU, print a warning but continue.
