@@ -24,6 +24,12 @@ from src.inference.emotion_classifier import EmotionClassifier
 from src.inference.receptivity_mapper import ReceptivityIndex, map_emotion_to_score
 
 
+def _on_mode_change() -> None:
+    """Clear mode-specific session state when the user switches modes."""
+    for key in ("receptivity_index", "emotion_history", "index_history"):
+        st.session_state.pop(key, None)
+
+
 def _resolve_model():
     """Return (path, input_size, use_rgb) for the best available model, or Nones."""
     candidates = [
@@ -44,7 +50,9 @@ st.sidebar.markdown(
     "aggregates it into a rolling receptivity index."
 )
 
-mode = st.sidebar.selectbox("Mode", ["Recorded video", "Webcam"])
+mode = st.sidebar.selectbox(
+    "Mode", ["Recorded video", "Webcam"], on_change=_on_mode_change
+)
 window_size = st.sidebar.slider(
     "Receptivity window size", min_value=5, max_value=30, value=10
 )

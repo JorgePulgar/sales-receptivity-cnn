@@ -63,7 +63,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
   if 'receptivity_index' not in st.session_state:
       st.session_state.receptivity_index = ReceptivityIndex(...)
   ```
-- [ ] Wipe state when the user switches modes (detect via callback)
+- [x] Wipe state when the user switches modes (detect via callback)
 - [ ] Cache classifier and detector with `@st.cache_resource`:
   ```python
   @st.cache_resource
