@@ -7,7 +7,7 @@ trained models and training histories.
 
 ## Tasks
 
-- [ ] Section 0 — Introduction
+- [x] Section 0 — Introduction
   - Markdown: objective. Mention that we train two models for comparison
     and that all evaluation happens in Notebook 4. Verify GPU here.
 
