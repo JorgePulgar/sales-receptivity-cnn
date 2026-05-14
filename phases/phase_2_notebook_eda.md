@@ -12,7 +12,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
 
 ## Tasks
 
-- [ ] Section 0 — Introduction
+- [x] Section 0 — Introduction
   - Markdown cell: objective of the notebook, dataset used, what will be
     produced as output. Mention the connection with the business case (we need
     to know the data before deciding mapping and augmentation strategy).
