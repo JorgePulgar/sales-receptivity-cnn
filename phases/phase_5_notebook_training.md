@@ -25,7 +25,7 @@ trained models and training histories.
   - Markdown: why we reload from `.npz` instead of redoing preprocessing
     (reproducibility + speed)
 
-- [ ] Section 3.1 — Build custom CNN (Model A)
+- [x] Section 3.1 — Build custom CNN (Model A)
   - `build_cnn_custom(input_shape=(48, 48, 1))`
   - `model.summary()`
   - Markdown: brief recap of the architecture choice (4 conv blocks balance
