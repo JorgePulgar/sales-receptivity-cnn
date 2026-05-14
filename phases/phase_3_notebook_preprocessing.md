@@ -35,7 +35,7 @@ weights. Visualize augmentation effects.
     Mention that resizing to 64×64 is a compromise between 48×48 (native FER2013)
     and 224×224 (ImageNet native), balancing accuracy vs latency
 
-- [ ] Section 5 — One-hot encoding of labels
+- [x] Section 5 — One-hot encoding of labels
   - Convert integer labels (0–6) to one-hot vectors of length 7
   - Use `tf.keras.utils.to_categorical`
   - Markdown: needed because we use `categorical_crossentropy` (alternative
