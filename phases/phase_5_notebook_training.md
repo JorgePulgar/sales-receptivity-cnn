@@ -80,7 +80,7 @@ trained models and training histories.
   - Print predicted vs true labels
   - Markdown: just a smoke test — full evaluation comes in Notebook 4
 
-- [ ] Section 6 — Summary and link to next notebook
+- [x] Section 6 — Summary and link to next notebook
   - Standard closing markdown. Mention training times observed and any issues
     encountered.
 
