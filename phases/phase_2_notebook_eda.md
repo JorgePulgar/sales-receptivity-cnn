@@ -69,7 +69,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
     - Expected confusions: Fear↔Surprise, Sad↔Neutral, Angry↔Disgust
     - Image size: keep 48×48 for CNN custom, resize to 64×64 for MobileNetV2
 
-- [ ] Section 8 — Summary and link to next notebook
+- [x] Section 8 — Summary and link to next notebook
   - Standard closing markdown cell.
 
 ## Validation
