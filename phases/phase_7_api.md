@@ -26,7 +26,7 @@ duplicated logic.
   - `bbox: Optional[Tuple[int, int, int, int]]`
   - `inference_time_ms: float`
 - [x] `FrameAnalysis`: same as `PredictionResponse` plus `frame_index: int`
-- [ ] `SessionSummary`:
+- [x] `SessionSummary`:
   - `dominant_emotion: str`
   - `mean_receptivity: float`
   - `time_in_each_state: Dict[str, float]`  # emotion → seconds (or frame count)

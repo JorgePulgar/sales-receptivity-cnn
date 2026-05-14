@@ -16,3 +16,11 @@ class PredictionResponse(BaseModel):
 
 class FrameAnalysis(PredictionResponse):
     frame_index: int
+
+
+class SessionSummary(BaseModel):
+    dominant_emotion: str
+    mean_receptivity: float
+    time_in_each_state: Dict[str, float]
+    peak_frame: int
+    valley_frame: int
