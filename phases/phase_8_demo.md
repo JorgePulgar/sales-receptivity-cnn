@@ -19,7 +19,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 - [x] Selectbox: "Mode" → "Recorded video" or "Webcam"
 - [x] Slider: receptivity index window size (default 10, range 5-30)
 - [x] Checkbox: weight by confidence (default True)
-- [ ] Information block: which model is loaded (read from `config`)
+- [x] Information block: which model is loaded (read from `config`)
 
 ### Mode 1 — Recorded video
 
