@@ -153,6 +153,15 @@ if mode == "Recorded video":
             "disgust":  "rgba(180,83,9,0.18)",
         }
 
+        with tab3:
+            st.dataframe(df, use_container_width=True)
+            st.download_button(
+                "Download CSV",
+                data=df.to_csv(index=False),
+                file_name="receptivity_analysis.csv",
+                mime="text/csv",
+            )
+
         with tab2:
             dominant = df["emotion"].value_counts().idxmax()
             mean_rec = df["index_value"].mean()

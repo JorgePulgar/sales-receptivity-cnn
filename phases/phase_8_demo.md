@@ -37,7 +37,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
   - `st.metric` cards for: dominant emotion, mean receptivity, frames analyzed,
     frames without face
   - Pie chart or bar chart of time spent per emotion
-- [ ] Tab 3 — Frame-by-frame table:
+- [x] Tab 3 — Frame-by-frame table:
   - `st.dataframe` with columns: timestamp, emotion, confidence, score, index_value
   - CSV download button
 - [ ] Tab 4 — Key moments:
