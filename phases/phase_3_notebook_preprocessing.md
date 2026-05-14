@@ -65,7 +65,7 @@ weights. Visualize augmentation effects.
   - Markdown: what the model will see during training; this gives intuition
     for why augmentation helps generalization to webcam conditions
 
-- [ ] Section 9 — Save processed datasets
+- [x] Section 9 — Save processed datasets
   - Save `data/processed/fer2013_gray.npz` with X_train, y_train, X_val,
     y_val, X_test, y_test (48×48×1, float32, one-hot labels)
   - Save `data/processed/fer2013_rgb64.npz` with the same splits at 64×64×3
