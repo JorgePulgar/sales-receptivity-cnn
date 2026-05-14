@@ -31,7 +31,7 @@ trained models and training histories.
   - Markdown: brief recap of the architecture choice (4 conv blocks balance
     capacity vs overfitting on 48×48 images)
 
-- [ ] Section 3.2 — Configure callbacks for custom CNN
+- [x] Section 3.2 — Configure callbacks for custom CNN
   - Use `get_default_callbacks('cnn_custom', MODELS_DIR)`
   - Markdown: callbacks explained briefly (early stopping prevents overfitting,
     LR reduction helps fine-grained convergence)
