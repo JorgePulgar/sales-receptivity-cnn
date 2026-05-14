@@ -34,5 +34,6 @@ mode = st.sidebar.selectbox("Mode", ["Recorded video", "Webcam"])
 window_size = st.sidebar.slider(
     "Receptivity window size", min_value=5, max_value=30, value=10
 )
+weight_by_confidence = st.sidebar.checkbox("Weight by confidence", value=True)
 
 st.title("Sales Receptivity CNN Demo")
