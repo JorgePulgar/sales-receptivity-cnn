@@ -92,7 +92,7 @@ model with documented justification. Produce the receptivity index simulation.
     model. Show the table. State the winner explicitly with a 2-3 sentence
     justification.
 
-- [ ] Section 11 — Critical reflection
+- [x] Section 11 — Critical reflection
   - Markdown only. Address:
     - Generalization from FER2013 (lab) to real webcam conditions
     - Limits of the emotion → commercial signal heuristic
