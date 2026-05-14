@@ -61,7 +61,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
   - Markdown: which pairs are most similar visually, which is consistent
     with the human-confusable emotions we anticipated
 
-- [ ] Section 7 — Conclusions and decisions for preprocessing
+- [x] Section 7 — Conclusions and decisions for preprocessing
   - Markdown cell summarizing:
     - Class imbalance → class weights + augmentation
     - No data cleaning needed (use FER2013 as-is)
