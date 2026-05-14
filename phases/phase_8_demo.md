@@ -28,7 +28,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
   frames and FPS, sample at 1 frame per second, show progress bar
 - [x] For each sampled frame: detect face → if face: predict + update receptivity
   index; if no face: skip update but log
-- [ ] Tab 1 — Receptivity timeline:
+- [x] Tab 1 — Receptivity timeline:
   - Plotly line chart of receptivity index over time
   - Shaded background regions per dominant emotion segment
   - Annotations on top 3 peaks and bottom 3 valleys

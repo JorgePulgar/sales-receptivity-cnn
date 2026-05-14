@@ -133,6 +133,98 @@ if mode == "Recorded video":
         cap.release()
         tmp_path.unlink(missing_ok=True)
 
+        if not records:
+            st.warning("No faces detected in the video.")
+            st.stop()
+
+        df = pd.DataFrame(records)
+
+        tab1, tab2, tab3, tab4 = st.tabs(
+            ["Receptivity Timeline", "Session Summary", "Frame-by-Frame", "Key Moments"]
+        )
+
+        _EMOTION_COLORS = {
+            "happy":    "rgba(34,197,94,0.18)",
+            "surprise": "rgba(59,130,246,0.18)",
+            "neutral":  "rgba(156,163,175,0.12)",
+            "sad":      "rgba(99,102,241,0.18)",
+            "fear":     "rgba(168,85,247,0.18)",
+            "angry":    "rgba(239,68,68,0.18)",
+            "disgust":  "rgba(180,83,9,0.18)",
+        }
+
+        with tab1:
+            fig = go.Figure()
+            fig.add_trace(
+                go.Scatter(
+                    x=df["timestamp"],
+                    y=df["index_value"],
+                    mode="lines+markers",
+                    name="Receptivity",
+                    line=dict(color="#2563eb", width=2),
+                )
+            )
+
+            prev_em, seg_start = None, None
+            for _, row in df.iterrows():
+                if row["emotion"] != prev_em:
+                    if prev_em is not None:
+                        fig.add_vrect(
+                            x0=seg_start,
+                            x1=row["timestamp"],
+                            fillcolor=_EMOTION_COLORS.get(prev_em, "rgba(0,0,0,0.05)"),
+                            line_width=0,
+                            annotation_text=prev_em,
+                            annotation_position="top left",
+                        )
+                    seg_start = row["timestamp"]
+                    prev_em = row["emotion"]
+            if prev_em is not None:
+                fig.add_vrect(
+                    x0=seg_start,
+                    x1=df["timestamp"].iloc[-1],
+                    fillcolor=_EMOTION_COLORS.get(prev_em, "rgba(0,0,0,0.05)"),
+                    line_width=0,
+                    annotation_text=prev_em,
+                    annotation_position="top left",
+                )
+
+            for i in df["index_value"].nlargest(3).index:
+                fig.add_annotation(
+                    x=df.loc[i, "timestamp"],
+                    y=df.loc[i, "index_value"],
+                    text="▲ peak",
+                    showarrow=True,
+                    arrowhead=2,
+                    yanchor="bottom",
+                    font=dict(color="#16a34a"),
+                )
+            for i in df["index_value"].nsmallest(3).index:
+                fig.add_annotation(
+                    x=df.loc[i, "timestamp"],
+                    y=df.loc[i, "index_value"],
+                    text="▼ valley",
+                    showarrow=True,
+                    arrowhead=2,
+                    yanchor="top",
+                    font=dict(color="#dc2626"),
+                )
+
+            fig.update_layout(
+                title="Receptivity Index Over Time",
+                xaxis_title="Time (s)",
+                yaxis_title="Receptivity Index (0–10)",
+                yaxis=dict(range=[0, 10]),
+                height=460,
+            )
+            st.plotly_chart(fig, use_container_width=True)
+            st.markdown(
+                "The receptivity index is a rolling weighted average of per-emotion scores "
+                "(0–10 scale). Values above 6 indicate positive engagement; below 4 signal "
+                "discomfort or disengagement. Shaded bands mark dominant-emotion segments; "
+                "annotations mark the three highest and lowest peaks."
+            )
+
 # ══════════════════════════════════════════════════════════════════════════════
 # MODE 2 — Webcam
 # ══════════════════════════════════════════════════════════════════════════════
