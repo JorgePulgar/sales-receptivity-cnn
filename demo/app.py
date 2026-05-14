@@ -62,4 +62,19 @@ else:
         "Train a model in Notebook 3 first."
     )
 
-st.title("Sales Receptivity CNN Demo")
+# ══════════════════════════════════════════════════════════════════════════════
+# MODE 1 — Recorded video
+# ══════════════════════════════════════════════════════════════════════════════
+
+if mode == "Recorded video":
+    st.title("Recorded Video Analysis")
+    uploaded = st.file_uploader(
+        "Upload a sales recording", type=["mp4", "avi", "mov"]
+    )
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MODE 2 — Webcam
+# ══════════════════════════════════════════════════════════════════════════════
+
+elif mode == "Webcam":
+    st.title("Live Webcam Analysis")
