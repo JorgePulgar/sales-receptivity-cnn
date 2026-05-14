@@ -54,7 +54,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
     for Happy, brow region for Angry). Connects to Grad-CAM expectations
     in Phase 6
 
-- [ ] Section 6 — Visual similarity between classes
+- [x] Section 6 — Visual similarity between classes
   - Compute mean image per class, then pairwise cosine similarity matrix
     between them
   - Heatmap of the 7×7 similarity matrix
