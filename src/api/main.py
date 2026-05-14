@@ -179,3 +179,108 @@ async def predict_image(file: UploadFile = File(...)) -> PredictionResponse:
         raise HTTPException(
             status_code=500, detail=f"Inference failed: {exc}"
         ) from exc
+
+
+@app.post("/predict/session", response_model=SessionResponse)
+async def predict_session(file: UploadFile = File(...)) -> SessionResponse:
+    """Analyse a video file and return per-frame emotion analysis with a session summary.
+
+    Frames are sampled at 1 fps (SAMPLE_FPS). Recommended maximum duration: 2-3 minutes;
+    longer videos increase processing time proportionally.
+    """
+    SAMPLE_FPS = 1
+
+    if _classifier is None:
+        raise HTTPException(status_code=500, detail="Model not loaded at startup.")
+
+    content_type = file.content_type or ""
+    if not (
+        content_type.startswith("video/") or content_type == "application/octet-stream"
+    ):
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"Unsupported content type '{content_type}'. "
+                "Upload a valid video file (mp4, avi, …)."
+            ),
+        )
+
+    data = await file.read()
+    tmp_path = Path(tempfile.mktemp(suffix=".mp4"))
+    tmp_path.write_bytes(data)
+
+    cap = cv2.VideoCapture(str(tmp_path))
+    if not cap.isOpened():
+        tmp_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=422, detail="Could not open file as a video.")
+
+    try:
+        fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
+        step = max(1, int(round(fps / SAMPLE_FPS)))
+
+        ri = ReceptivityIndex()
+        frames_analysis: List[FrameAnalysis] = []
+        receptivity_values: List[float] = []
+        frame_idx = 0
+
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            if frame_idx % step == 0:
+                try:
+                    pred = _run_inference(frame)
+                except Exception as exc:
+                    raise HTTPException(
+                        status_code=500,
+                        detail=f"Inference failed on frame {frame_idx}: {exc}",
+                    ) from exc
+                if pred.face_detected:
+                    ri_val = ri.update(pred.emotion, pred.confidence)
+                else:
+                    ri_val = ri.get_current_index()
+                receptivity_values.append(ri_val)
+                frames_analysis.append(
+                    FrameAnalysis(**pred.model_dump(), frame_index=frame_idx)
+                )
+            frame_idx += 1
+    finally:
+        cap.release()
+        tmp_path.unlink(missing_ok=True)
+
+    if not frames_analysis:
+        raise HTTPException(
+            status_code=422, detail="No frames could be extracted from the video."
+        )
+
+    valid_frames = [f for f in frames_analysis if f.face_detected]
+    if valid_frames:
+        emotion_counts = Counter(f.emotion for f in valid_frames)
+        dominant_emotion = emotion_counts.most_common(1)[0][0]
+        mean_receptivity = float(
+            np.mean([map_emotion_to_score(f.emotion) for f in valid_frames])
+        )
+        time_in_each_state = {e: float(c) for e, c in emotion_counts.items()}
+        scores_indexed = [
+            (map_emotion_to_score(f.emotion), f.frame_index) for f in valid_frames
+        ]
+        peak_frame = max(scores_indexed, key=lambda x: x[0])[1]
+        valley_frame = min(scores_indexed, key=lambda x: x[0])[1]
+    else:
+        dominant_emotion = "neutral"
+        mean_receptivity = 5.0
+        time_in_each_state = {}
+        peak_frame = frames_analysis[0].frame_index
+        valley_frame = frames_analysis[0].frame_index
+
+    return SessionResponse(
+        frames_analysis=frames_analysis,
+        receptivity_index_over_time=receptivity_values,
+        session_summary=SessionSummary(
+            dominant_emotion=dominant_emotion,
+            mean_receptivity=mean_receptivity,
+            time_in_each_state=time_in_each_state,
+            peak_frame=peak_frame,
+            valley_frame=valley_frame,
+        ),
+    )

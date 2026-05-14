@@ -48,7 +48,7 @@ duplicated logic.
   - Input: `multipart/form-data` with an image file
   - Steps: read bytes → decode with cv2 → detect face → if no face, return
     `face_detected=false`; else extract ROI → predict → map → return
-- [ ] `POST /predict/session`
+- [x] `POST /predict/session`
   - Input: `multipart/form-data` with a video file (mp4/avi)
   - Steps: open with `cv2.VideoCapture` → iterate frames (sample 1 frame
     per N for speed; configurable, default 1 fps equivalent) → for each
