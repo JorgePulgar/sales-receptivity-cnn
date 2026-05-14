@@ -58,7 +58,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 
 ### State management and performance
 
-- [ ] `st.session_state` guard for `ReceptivityIndex` in webcam mode:
+- [x] `st.session_state` guard for `ReceptivityIndex` in webcam mode:
   ```python
   if 'receptivity_index' not in st.session_state:
       st.session_state.receptivity_index = ReceptivityIndex(...)

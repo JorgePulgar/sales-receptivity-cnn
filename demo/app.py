@@ -296,9 +296,12 @@ elif mode == "Webcam":
 
             cam_detector = FaceDetector()
             cam_classifier = EmotionClassifier(_model_path, _input_size, _use_rgb)
-            cam_ri = ReceptivityIndex(
-                window_size=window_size, weight_by_confidence=weight_by_confidence
-            )
+
+            if "receptivity_index" not in st.session_state:
+                st.session_state.receptivity_index = ReceptivityIndex(
+                    window_size=window_size, weight_by_confidence=weight_by_confidence
+                )
+            cam_ri = st.session_state.receptivity_index
 
             bbox = cam_detector.detect_largest(frame)
             if bbox is None:
@@ -327,7 +330,7 @@ elif mode == "Webcam":
                 st.metric("Current Receptivity Index", f"{idx_val:.2f} / 10")
 
                 if "emotion_history" not in st.session_state:
-                    st.session_state.emotion_history = []
+                    st.session_state.emotion_history: list[str] = []
                 st.session_state.emotion_history.append(emotion)
                 hist = {
                     e: st.session_state.emotion_history.count(e)
