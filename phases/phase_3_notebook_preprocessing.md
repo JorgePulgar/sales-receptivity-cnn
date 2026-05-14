@@ -26,7 +26,7 @@ weights. Visualize augmentation effects.
   - Add channel dimension: `(n, 48, 48) → (n, 48, 48, 1)`
   - Markdown: Keras Conv2D requires explicit channel axis
 
-- [ ] Section 4 — Prepare MobileNetV2 inputs
+- [x] Section 4 — Prepare MobileNetV2 inputs
   - Use `src.data.loader.resize_batch` to resize to 64×64
   - Use `src.data.loader.to_rgb` to duplicate channels
   - Result shape: `(n, 64, 64, 3)`
