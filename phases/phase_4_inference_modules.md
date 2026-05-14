@@ -52,7 +52,7 @@ demo. Must work with a dummy model for testing before training is finished.
 
 ### Tests
 
-- [ ] `tests/test_inference.py`:
+- [x] `tests/test_inference.py`:
   - Test for `FaceDetector` using a known sample image with a face
   - Test for `ReceptivityIndex`: feed a sequence of emotions, assert the
     index moves in the expected direction
