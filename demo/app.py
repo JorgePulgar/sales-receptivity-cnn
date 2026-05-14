@@ -24,6 +24,18 @@ from src.inference.emotion_classifier import EmotionClassifier
 from src.inference.receptivity_mapper import ReceptivityIndex, map_emotion_to_score
 
 
+@st.cache_resource
+def get_detector() -> FaceDetector:
+    return FaceDetector()
+
+
+@st.cache_resource
+def get_classifier(
+    model_path: str, input_size: tuple, use_rgb: bool
+) -> EmotionClassifier:
+    return EmotionClassifier(Path(model_path), input_size, use_rgb)
+
+
 def _on_mode_change() -> None:
     """Clear mode-specific session state when the user switches modes."""
     for key in ("receptivity_index", "emotion_history", "index_history"):
@@ -99,8 +111,8 @@ if mode == "Recorded video":
             st.error("No model loaded — train one in Notebook 3.")
             st.stop()
 
-        detector = FaceDetector()
-        classifier = EmotionClassifier(_model_path, _input_size, _use_rgb)
+        detector = get_detector()
+        classifier = get_classifier(str(_model_path), _input_size, _use_rgb)
         ri = ReceptivityIndex(window_size=window_size, weight_by_confidence=weight_by_confidence)
 
         progress_bar = st.progress(0, text="Analysing frames…")
@@ -302,8 +314,8 @@ elif mode == "Webcam":
             raw = np.frombuffer(photo.getvalue(), np.uint8)
             frame = cv2.imdecode(raw, cv2.IMREAD_COLOR)
 
-            cam_detector = FaceDetector()
-            cam_classifier = EmotionClassifier(_model_path, _input_size, _use_rgb)
+            cam_detector = get_detector()
+            cam_classifier = get_classifier(str(_model_path), _input_size, _use_rgb)
 
             if "receptivity_index" not in st.session_state:
                 st.session_state.receptivity_index = ReceptivityIndex(
