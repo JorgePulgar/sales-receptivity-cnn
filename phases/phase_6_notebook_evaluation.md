@@ -43,7 +43,7 @@ model with documented justification. Produce the receptivity index simulation.
   - Markdown: identify worst-performing classes (likely Disgust, Fear) and
     comment on whether class weights helped
 
-- [ ] Section 6 — Comparative summary table
+- [x] Section 6 — Comparative summary table
   - Build a DataFrame with one row per model:
     - Train accuracy (from history, last epoch before early stop)
     - Validation accuracy (same)
