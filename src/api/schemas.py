@@ -30,3 +30,10 @@ class SessionResponse(BaseModel):
     frames_analysis: List[FrameAnalysis]
     receptivity_index_over_time: List[float]
     session_summary: SessionSummary
+
+
+class HealthResponse(BaseModel):
+    status: str
+    model_loaded: bool
+    model_path: str
+    inference_time_ms: float

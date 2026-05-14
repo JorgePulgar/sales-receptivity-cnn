@@ -36,7 +36,7 @@ duplicated logic.
   - `frames_analysis: List[FrameAnalysis]`
   - `receptivity_index_over_time: List[float]`
   - `session_summary: SessionSummary`
-- [ ] `HealthResponse`:
+- [x] `HealthResponse`:
   - `status: str`
   - `model_loaded: bool`
   - `model_path: str`
