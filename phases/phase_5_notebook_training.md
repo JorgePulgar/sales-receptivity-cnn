@@ -43,7 +43,7 @@ trained models and training histories.
   - Markdown: expected behavior — accuracy should plateau around 60-68%,
     early stopping likely fires before epoch 50
 
-- [ ] Section 3.4 — Save custom CNN
+- [x] Section 3.4 — Save custom CNN
   - Save model to `models/cnn_custom.keras`
   - Save `history.history` to `models/histories/cnn_custom_history.json`
   - Markdown: why we save both (model for inference, history for plotting
