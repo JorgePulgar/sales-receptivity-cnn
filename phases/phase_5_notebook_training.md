@@ -69,7 +69,7 @@ trained models and training histories.
   - Markdown: fine-tuning the top layers adapts pretrained features to the
     emotion domain. Very low LR prevents catastrophic forgetting
 
-- [ ] Section 4.4 — Save MobileNetV2
+- [x] Section 4.4 — Save MobileNetV2
   - Save final model to `models/mobilenet_ft.keras`
   - Save the combined history (stage 1 + stage 2) to
     `models/histories/mobilenet_ft_history.json`
