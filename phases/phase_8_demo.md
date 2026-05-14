@@ -33,7 +33,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
   - Shaded background regions per dominant emotion segment
   - Annotations on top 3 peaks and bottom 3 valleys
   - Markdown caption explaining how to read the chart
-- [ ] Tab 2 — Session summary:
+- [x] Tab 2 — Session summary:
   - `st.metric` cards for: dominant emotion, mean receptivity, frames analyzed,
     frames without face
   - Pie chart or bar chart of time spent per emotion

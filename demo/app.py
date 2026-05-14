@@ -153,6 +153,26 @@ if mode == "Recorded video":
             "disgust":  "rgba(180,83,9,0.18)",
         }
 
+        with tab2:
+            dominant = df["emotion"].value_counts().idxmax()
+            mean_rec = df["index_value"].mean()
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Dominant emotion", dominant.capitalize())
+            c2.metric("Mean receptivity", f"{mean_rec:.2f} / 10")
+            c3.metric("Frames analysed", len(df))
+            c4.metric("Frames without face", face_misses)
+
+            emotion_counts = df["emotion"].value_counts()
+            pie = go.Figure(
+                go.Pie(
+                    labels=[e.capitalize() for e in emotion_counts.index],
+                    values=emotion_counts.values.tolist(),
+                    hole=0.32,
+                )
+            )
+            pie.update_layout(title="Time Spent per Emotion", height=370)
+            st.plotly_chart(pie, use_container_width=True)
+
         with tab1:
             fig = go.Figure()
             fig.add_trace(
