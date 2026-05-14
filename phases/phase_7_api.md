@@ -25,7 +25,7 @@ duplicated logic.
   - `face_detected: bool`
   - `bbox: Optional[Tuple[int, int, int, int]]`
   - `inference_time_ms: float`
-- [ ] `FrameAnalysis`: same as `PredictionResponse` plus `frame_index: int`
+- [x] `FrameAnalysis`: same as `PredictionResponse` plus `frame_index: int`
 - [ ] `SessionSummary`:
   - `dominant_emotion: str`
   - `mean_receptivity: float`

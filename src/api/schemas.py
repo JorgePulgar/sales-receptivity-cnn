@@ -12,3 +12,7 @@ class PredictionResponse(BaseModel):
     face_detected: bool
     bbox: Optional[Tuple[int, int, int, int]] = None
     inference_time_ms: float
+
+
+class FrameAnalysis(PredictionResponse):
+    frame_index: int
