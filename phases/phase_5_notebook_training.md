@@ -55,7 +55,7 @@ trained models and training histories.
   - Markdown: only the top dense layers train in this stage; the MobileNetV2
     backbone is frozen with ImageNet weights
 
-- [ ] Section 4.2 — Stage 1: train the MobileNetV2 head
+- [x] Section 4.2 — Stage 1: train the MobileNetV2 head
   - 10 epochs, batch size 64, lr=1e-3 (already set by builder)
   - Class weights
   - Markdown: stage 1 lets the head adapt to FER2013 before disturbing
