@@ -325,3 +325,12 @@ elif mode == "Webcam":
                 )
 
                 st.metric("Current Receptivity Index", f"{idx_val:.2f} / 10")
+
+                if "emotion_history" not in st.session_state:
+                    st.session_state.emotion_history = []
+                st.session_state.emotion_history.append(emotion)
+                hist = {
+                    e: st.session_state.emotion_history.count(e)
+                    for e in config.EMOTION_LABELS
+                }
+                st.bar_chart(hist)
