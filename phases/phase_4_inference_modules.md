@@ -24,15 +24,15 @@ demo. Must work with a dummy model for testing before training is finished.
 
 ### `src/inference/emotion_classifier.py`
 
-- [ ] Class `EmotionClassifier`:
+- [x] Class `EmotionClassifier`:
   - `__init__(self, model_path: Path, input_size: Tuple[int, int],
      use_rgb: bool, labels: List[str] = config.EMOTION_LABELS)`
   - Loads the Keras model from disk at construction time
-- [ ] `predict(self, face_roi: np.ndarray) -> Tuple[str, float, np.ndarray]`
+- [x] `predict(self, face_roi: np.ndarray) -> Tuple[str, float, np.ndarray]`
   returning `(emotion_label, confidence, probabilities_vector)`
   - Handles preprocessing internally: normalization, channel duplication
     if `use_rgb=True`, batch axis
-- [ ] `predict_batch(self, face_rois: np.ndarray) -> List[Tuple[str, float, np.ndarray]]`
+- [x] `predict_batch(self, face_rois: np.ndarray) -> List[Tuple[str, float, np.ndarray]]`
   for video processing
 
 ### `src/inference/receptivity_mapper.py`
