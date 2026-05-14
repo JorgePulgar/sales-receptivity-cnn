@@ -30,4 +30,6 @@ st.sidebar.markdown(
     "aggregates it into a rolling receptivity index."
 )
 
+mode = st.sidebar.selectbox("Mode", ["Recorded video", "Webcam"])
+
 st.title("Sales Receptivity CNN Demo")

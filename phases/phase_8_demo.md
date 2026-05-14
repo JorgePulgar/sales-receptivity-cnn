@@ -16,7 +16,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 ### Sidebar configuration
 
 - [x] Title and short description
-- [ ] Selectbox: "Mode" → "Recorded video" or "Webcam"
+- [x] Selectbox: "Mode" → "Recorded video" or "Webcam"
 - [ ] Slider: receptivity index window size (default 10, range 5-30)
 - [ ] Checkbox: weight by confidence (default True)
 - [ ] Information block: which model is loaded (read from `config`)
