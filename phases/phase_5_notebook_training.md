@@ -75,7 +75,7 @@ trained models and training histories.
     `models/histories/mobilenet_ft_history.json`
   - Markdown: history concatenation logic explained
 
-- [ ] Section 5 — Quick sanity check
+- [x] Section 5 — Quick sanity check
   - For each model, predict on the first 16 test images
   - Print predicted vs true labels
   - Markdown: just a smoke test — full evaluation comes in Notebook 4
