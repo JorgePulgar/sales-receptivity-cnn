@@ -42,7 +42,7 @@ weights. Visualize augmentation effects.
     would be `sparse_categorical_crossentropy` with integer labels — mention
     the discarded option)
 
-- [ ] Section 6 — Class weights computation
+- [x] Section 6 — Class weights computation
   - Use `sklearn.utils.class_weight.compute_class_weight('balanced', ...)`
     on the integer training labels
   - Build a `dict` mapping class index → weight
