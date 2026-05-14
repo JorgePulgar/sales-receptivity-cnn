@@ -22,7 +22,7 @@ weights. Visualize augmentation effects.
   - Markdown: why normalization is needed (training stability, faster
     convergence, also required for MobileNetV2 input expectations)
 
-- [ ] Section 3 — Reshape for the custom CNN
+- [x] Section 3 — Reshape for the custom CNN
   - Add channel dimension: `(n, 48, 48) → (n, 48, 48, 1)`
   - Markdown: Keras Conv2D requires explicit channel axis
 
