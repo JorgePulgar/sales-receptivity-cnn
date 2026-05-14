@@ -46,7 +46,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 
 ### Mode 2 — Webcam
 
-- [ ] `st.camera_input("Take a photo")` capture
+- [x] `st.camera_input("Take a photo")` capture
 - [ ] On capture: detect face → predict → update receptivity index stored in
   `st.session_state`
 - [ ] Display captured photo with bounding box overlaid (`cv2.rectangle` + `st.image`)

@@ -284,3 +284,5 @@ if mode == "Recorded video":
 
 elif mode == "Webcam":
     st.title("Live Webcam Analysis")
+
+    photo = st.camera_input("Take a photo")
