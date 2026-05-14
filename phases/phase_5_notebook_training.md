@@ -61,7 +61,7 @@ trained models and training histories.
   - Markdown: stage 1 lets the head adapt to FER2013 before disturbing
     the pretrained features
 
-- [ ] Section 4.3 — Stage 2: unfreeze top layers and fine-tune
+- [x] Section 4.3 — Stage 2: unfreeze top layers and fine-tune
   - `unfreeze_top_layers(model, n_layers=30)`
   - `model.summary()` again — trainable params should increase
   - Train 20 more epochs with the same callbacks (now with lr=1e-5 set by
