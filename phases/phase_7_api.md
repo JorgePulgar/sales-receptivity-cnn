@@ -44,7 +44,7 @@ duplicated logic.
 
 ### Endpoints
 
-- [ ] `POST /predict/image`
+- [x] `POST /predict/image`
   - Input: `multipart/form-data` with an image file
   - Steps: read bytes → decode with cv2 → detect face → if no face, return
     `face_detected=false`; else extract ROI → predict → map → return

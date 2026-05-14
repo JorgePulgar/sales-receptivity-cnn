@@ -149,3 +149,33 @@ async def health() -> HealthResponse:
         model_path=str(_model_path),
         inference_time_ms=elapsed_ms,
     )
+
+
+@app.post("/predict/image", response_model=PredictionResponse)
+async def predict_image(file: UploadFile = File(...)) -> PredictionResponse:
+    """Detect the largest face in the uploaded image and return emotion analysis.
+
+    Returns face_detected=False when no face is found — not an error condition.
+    """
+    if _classifier is None:
+        raise HTTPException(status_code=500, detail="Model not loaded at startup.")
+    content_type = file.content_type or ""
+    if not content_type.startswith("image/"):
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"Unsupported content type '{content_type}'. "
+                "Upload a valid image file (jpeg, png, …)."
+            ),
+        )
+    data = await file.read()
+    arr = np.frombuffer(data, dtype=np.uint8)
+    image = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+    if image is None:
+        raise HTTPException(status_code=422, detail="Could not decode file as an image.")
+    try:
+        return _run_inference(image)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500, detail=f"Inference failed: {exc}"
+        ) from exc
