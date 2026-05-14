@@ -38,7 +38,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
     emotions (Fear/Surprise, Sad/Neutral, Angry/Disgust)
   - Anticipates which confusions we expect in the confusion matrix
 
-- [ ] Section 4 — Image quality analysis
+- [x] Section 4 — Image quality analysis
   - Distribution of per-image pixel variance — detect near-uniform images
   - Distribution of mean pixel intensity — detect over/underexposed
   - Show 5 examples of the lowest-variance images
