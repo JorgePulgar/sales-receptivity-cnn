@@ -98,7 +98,11 @@ final quality, not placeholders.
 ## Git workflow
 
 - Every discrete task gets its own commit. Do not batch unrelated work into a
-  single commit
+  single commit. For notebooks, each section listed in the phase file is a
+  separate task and therefore a separate commit.
+- Each commit that completes a phase task must also mark the corresponding
+  `[ ]` checkbox as `[x]` in the phase file in the same commit. Never let
+  checkboxes fall out of sync with the actual work.
 - Every commit message must end with a `Co-Authored-By: Claude <noreply@anthropic.com>`
   trailer so Claude is shown as a contributor
 - Use conventional-style prefixes (`docs:`, `feat:`, `fix:`, `refactor:`,
