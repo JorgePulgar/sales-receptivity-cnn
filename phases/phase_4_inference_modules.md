@@ -9,16 +9,16 @@ demo. Must work with a dummy model for testing before training is finished.
 
 ### `src/inference/face_detector.py`
 
-- [ ] Class `FaceDetector`:
+- [x] Class `FaceDetector`:
   - `__init__(self, scale_factor: float = 1.1, min_neighbors: int = 5,
      min_size: Tuple[int, int] = (30, 30))`
   - Loads `cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')`
-- [ ] `detect(self, image: np.ndarray) -> List[Tuple[int, int, int, int]]`
+- [x] `detect(self, image: np.ndarray) -> List[Tuple[int, int, int, int]]`
   returning bounding boxes `(x, y, w, h)`
-- [ ] `detect_largest(self, image: np.ndarray) -> Optional[Tuple[int, int, int, int]]`
+- [x] `detect_largest(self, image: np.ndarray) -> Optional[Tuple[int, int, int, int]]`
   returning only the largest detected face (most relevant during a
   sales call: the person on screen)
-- [ ] `extract_roi(self, image: np.ndarray, bbox: Tuple[int, int, int, int],
+- [x] `extract_roi(self, image: np.ndarray, bbox: Tuple[int, int, int, int],
    target_size: Tuple[int, int], to_grayscale: bool = True) -> np.ndarray`
   crops and resizes the face ROI
 
