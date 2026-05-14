@@ -7,7 +7,7 @@ model with documented justification. Produce the receptivity index simulation.
 
 ## Tasks
 
-- [ ] Section 0 — Introduction
+- [x] Section 0 — Introduction
   - Markdown: objective. List what will be produced (curves, confusion matrices,
     classification reports, Grad-CAM, receptivity simulation, final selection).
 
