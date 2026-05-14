@@ -40,7 +40,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 - [x] Tab 3 — Frame-by-frame table:
   - `st.dataframe` with columns: timestamp, emotion, confidence, score, index_value
   - CSV download button
-- [ ] Tab 4 — Key moments:
+- [x] Tab 4 — Key moments:
   - 3 highest-receptivity frames with thumbnails and predicted emotion
   - 3 lowest-receptivity frames likewise
 

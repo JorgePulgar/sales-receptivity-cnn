@@ -153,6 +153,30 @@ if mode == "Recorded video":
             "disgust":  "rgba(180,83,9,0.18)",
         }
 
+        def _show_key_frames(subset: pd.DataFrame, border_bgr: tuple) -> None:
+            cols = st.columns(min(3, len(subset)))
+            for col, (rec_i, row) in zip(cols, subset.iterrows()):
+                if rec_i in key_frames:
+                    frm, bbox = key_frames[rec_i]
+                    frm = frm.copy()
+                    x, y, w, h = bbox
+                    cv2.rectangle(frm, (x, y), (x + w, y + h), border_bgr, 2)
+                    col.image(
+                        cv2.cvtColor(frm, cv2.COLOR_BGR2RGB),
+                        caption=(
+                            f"{row['emotion'].capitalize()} "
+                            f"({row['confidence']:.0%}) | "
+                            f"{row['timestamp']}s | "
+                            f"idx {row['index_value']:.2f}"
+                        ),
+                    )
+
+        with tab4:
+            st.subheader("3 Highest-Receptivity Frames")
+            _show_key_frames(df.nlargest(3, "index_value"), (0, 200, 80))
+            st.subheader("3 Lowest-Receptivity Frames")
+            _show_key_frames(df.nsmallest(3, "index_value"), (50, 50, 220))
+
         with tab3:
             st.dataframe(df, use_container_width=True)
             st.download_button(
