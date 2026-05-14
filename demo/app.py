@@ -339,3 +339,8 @@ elif mode == "Webcam":
                     st.session_state.index_history = []
                 st.session_state.index_history.append(idx_val)
                 st.line_chart(st.session_state.index_history)
+
+    if st.button("Reset session"):
+        for key in ("emotion_history", "index_history", "receptivity_index"):
+            st.session_state.pop(key, None)
+        st.rerun()
