@@ -58,7 +58,7 @@ weights. Visualize augmentation effects.
     no vertical flip (faces are not vertically symmetric), brightness
     variation to simulate different lighting in real webcam usage
 
-- [ ] Section 8 — Augmentation visualization
+- [x] Section 8 — Augmentation visualization
   - Pick 1 random training image
   - Apply the augmentation pipeline 8 times
   - Show original + 8 augmented variants in a 3×3 grid
