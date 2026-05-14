@@ -90,3 +90,40 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+def _run_inference(image: np.ndarray) -> PredictionResponse:
+    """Run face detection + emotion classification on one frame.
+
+    FaceDetector and EmotionClassifier are module-level singletons loaded at
+    startup. ReceptivityIndex is instantiated per session (stateful per call).
+    """
+    t0 = time.perf_counter()
+    bbox = _detector.detect_largest(image)
+    if bbox is None:
+        elapsed_ms = (time.perf_counter() - t0) * 1000
+        return PredictionResponse(
+            emotion="neutral",
+            confidence=0.0,
+            probabilities={e: 0.0 for e in config.EMOTION_LABELS},
+            receptivity_signal="No face detected",
+            receptivity_score=5.0,
+            face_detected=False,
+            bbox=None,
+            inference_time_ms=elapsed_ms,
+        )
+    roi = _detector.extract_roi(
+        image, bbox, target_size=_model_input_size, to_grayscale=True
+    )
+    label, confidence, probs = _classifier.predict(roi)
+    elapsed_ms = (time.perf_counter() - t0) * 1000
+    return PredictionResponse(
+        emotion=label,
+        confidence=confidence,
+        probabilities=dict(zip(config.EMOTION_LABELS, probs.tolist())),
+        receptivity_signal=map_emotion_to_signal(label),
+        receptivity_score=map_emotion_to_score(label),
+        face_detected=True,
+        bbox=bbox,
+        inference_time_ms=elapsed_ms,
+    )
