@@ -19,7 +19,7 @@ model with documented justification. Produce the receptivity index simulation.
   - Load both histories from `models/histories/`
   - Markdown: we never retrain here; pure evaluation
 
-- [ ] Section 2 — Training curves
+- [x] Section 2 — Training curves
   - For each model: plot loss and accuracy curves (train vs val) side by side
   - Mark the epoch of `EarlyStopping` restoration
   - Markdown per plot: diagnose overfitting (large train-val gap), underfitting
