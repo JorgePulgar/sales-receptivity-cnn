@@ -286,3 +286,26 @@ elif mode == "Webcam":
     st.title("Live Webcam Analysis")
 
     photo = st.camera_input("Take a photo")
+
+    if photo is not None:
+        if _model_path is None:
+            st.error("No model loaded — train one in Notebook 3.")
+        else:
+            raw = np.frombuffer(photo.getvalue(), np.uint8)
+            frame = cv2.imdecode(raw, cv2.IMREAD_COLOR)
+
+            cam_detector = FaceDetector()
+            cam_classifier = EmotionClassifier(_model_path, _input_size, _use_rgb)
+            cam_ri = ReceptivityIndex(
+                window_size=window_size, weight_by_confidence=weight_by_confidence
+            )
+
+            bbox = cam_detector.detect_largest(frame)
+            if bbox is None:
+                st.warning("No face detected — try better lighting or move closer.")
+            else:
+                roi = cam_detector.extract_roi(
+                    frame, bbox, _input_size, to_grayscale=not _use_rgb
+                )
+                emotion, confidence, _ = cam_classifier.predict(roi)
+                idx_val = cam_ri.update(emotion, confidence)
