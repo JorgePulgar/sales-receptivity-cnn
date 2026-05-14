@@ -51,7 +51,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
   `st.session_state`
 - [x] Display captured photo with bounding box overlaid (`cv2.rectangle` + `st.image`)
 - [x] Predicted emotion + confidence
-- [ ] Current receptivity index as `st.metric`
+- [x] Current receptivity index as `st.metric`
 - [ ] Cumulative emotion histogram (`st.bar_chart`)
 - [ ] Receptivity index history (`st.line_chart`)
 - [ ] `st.button("Reset session")` to clear `st.session_state` history

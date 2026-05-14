@@ -323,3 +323,5 @@ elif mode == "Webcam":
                     f"**Predicted emotion:** {emotion.capitalize()}  \n"
                     f"**Confidence:** {confidence:.1%}"
                 )
+
+                st.metric("Current Receptivity Index", f"{idx_val:.2f} / 10")
