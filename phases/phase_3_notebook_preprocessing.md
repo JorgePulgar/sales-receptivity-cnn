@@ -73,7 +73,7 @@ weights. Visualize augmentation effects.
   - Markdown: why we persist the processed data (notebook 3 can reload in
     seconds instead of reprocessing)
 
-- [ ] Section 10 — Summary and link to next notebook
+- [x] Section 10 — Summary and link to next notebook
   - Standard closing markdown.
 
 ## Validation
