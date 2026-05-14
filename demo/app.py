@@ -318,3 +318,8 @@ elif mode == "Webcam":
                 )
                 emotion, confidence, _ = cam_classifier.predict(roi)
                 idx_val = cam_ri.update(emotion, confidence)
+
+                st.markdown(
+                    f"**Predicted emotion:** {emotion.capitalize()}  \n"
+                    f"**Confidence:** {confidence:.1%}"
+                )
