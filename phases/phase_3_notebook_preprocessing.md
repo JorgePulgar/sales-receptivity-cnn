@@ -17,7 +17,7 @@ weights. Visualize augmentation effects.
   - Load FER2013 via `src.data.loader.load_fer2013`
   - Print shapes again to confirm starting point
 
-- [ ] Section 2 — Normalization
+- [x] Section 2 — Normalization
   - Convert uint8 [0, 255] → float32 [0, 1] by dividing by 255
   - Markdown: why normalization is needed (training stability, faster
     convergence, also required for MobileNetV2 input expectations)
