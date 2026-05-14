@@ -26,7 +26,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 - [x] `st.file_uploader` accepting `.mp4`, `.avi`, `.mov`
 - [x] On upload: save to temp file, open with `cv2.VideoCapture`, read total
   frames and FPS, sample at 1 frame per second, show progress bar
-- [ ] For each sampled frame: detect face → if face: predict + update receptivity
+- [x] For each sampled frame: detect face → if face: predict + update receptivity
   index; if no face: skip update but log
 - [ ] Tab 1 — Receptivity timeline:
   - Plotly line chart of receptivity index over time

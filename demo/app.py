@@ -85,6 +85,16 @@ if mode == "Recorded video":
         sample_indices = list(range(0, total_frames, sample_step))
         n_samples = len(sample_indices)
 
+        if _model_path is None:
+            cap.release()
+            tmp_path.unlink(missing_ok=True)
+            st.error("No model loaded — train one in Notebook 3.")
+            st.stop()
+
+        detector = FaceDetector()
+        classifier = EmotionClassifier(_model_path, _input_size, _use_rgb)
+        ri = ReceptivityIndex(window_size=window_size, weight_by_confidence=weight_by_confidence)
+
         progress_bar = st.progress(0, text="Analysing frames…")
         records: list[dict] = []
         face_misses = 0
@@ -93,6 +103,31 @@ if mode == "Recorded video":
         for step, frame_idx in enumerate(sample_indices):
             cap.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
             ret, frame = cap.read()
+            if not ret:
+                face_misses += 1
+                progress_bar.progress((step + 1) / n_samples)
+                continue
+            bbox = detector.detect_largest(frame)
+            if bbox is None:
+                face_misses += 1
+                progress_bar.progress((step + 1) / n_samples)
+                continue
+            roi = detector.extract_roi(
+                frame, bbox, _input_size, to_grayscale=not _use_rgb
+            )
+            emotion, confidence, _ = classifier.predict(roi)
+            idx_val = ri.update(emotion, confidence)
+            rec_idx = len(records)
+            records.append(
+                {
+                    "timestamp": round(frame_idx / fps, 2),
+                    "emotion": emotion,
+                    "confidence": round(confidence, 3),
+                    "score": map_emotion_to_score(emotion),
+                    "index_value": round(idx_val, 3),
+                }
+            )
+            key_frames[rec_idx] = (frame.copy(), bbox)
             progress_bar.progress((step + 1) / n_samples)
 
         cap.release()
