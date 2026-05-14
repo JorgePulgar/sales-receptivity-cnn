@@ -23,4 +23,11 @@ from src.inference.face_detector import FaceDetector
 from src.inference.emotion_classifier import EmotionClassifier
 from src.inference.receptivity_mapper import ReceptivityIndex, map_emotion_to_score
 
+st.sidebar.title("Sales Receptivity CNN")
+st.sidebar.markdown(
+    "Emotion-based receptivity analyser for sales presentations. "
+    "The CNN predicts the prospect's emotional state frame by frame and "
+    "aggregates it into a rolling receptivity index."
+)
+
 st.title("Sales Receptivity CNN Demo")
