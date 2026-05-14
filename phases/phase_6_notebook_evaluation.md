@@ -71,7 +71,7 @@ model with documented justification. Produce the receptivity index simulation.
     mouth for Happy, eye region for Fear). Connects to the spatial intuition
     from the EDA section 5
 
-- [ ] Section 9 — Receptivity index simulation
+- [x] Section 9 — Receptivity index simulation
   - Build a synthetic frame sequence: pick 200 test images in a controlled
     order that mimics a realistic sales call (e.g. starts neutral, climbs
     through happy/surprise, dips into fear, recovers)
