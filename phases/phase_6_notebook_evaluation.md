@@ -31,7 +31,7 @@ model with documented justification. Produce the receptivity index simulation.
   - Save predictions in memory for the rest of the notebook
   - Markdown: this is the single inference pass we will reuse downstream
 
-- [ ] Section 4 — Confusion matrices
+- [x] Section 4 — Confusion matrices
   - Normalized confusion matrix for each model (`normalize='true'`)
   - Heatmap with class names on axes
   - Markdown: highlight expected confusions from the EDA (Fear↔Surprise,
