@@ -334,3 +334,8 @@ elif mode == "Webcam":
                     for e in config.EMOTION_LABELS
                 }
                 st.bar_chart(hist)
+
+                if "index_history" not in st.session_state:
+                    st.session_state.index_history = []
+                st.session_state.index_history.append(idx_val)
+                st.line_chart(st.session_state.index_history)

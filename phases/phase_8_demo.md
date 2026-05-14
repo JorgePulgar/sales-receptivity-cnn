@@ -53,7 +53,7 @@ capture via `st.camera_input`. NO `streamlit-webrtc` — keep it robust.
 - [x] Predicted emotion + confidence
 - [x] Current receptivity index as `st.metric`
 - [x] Cumulative emotion histogram (`st.bar_chart`)
-- [ ] Receptivity index history (`st.line_chart`)
+- [x] Receptivity index history (`st.line_chart`)
 - [ ] `st.button("Reset session")` to clear `st.session_state` history
 
 ### State management and performance
