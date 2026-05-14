@@ -12,7 +12,7 @@ weights. Visualize augmentation effects.
     (grayscale 48×48 for the custom CNN, RGB 64×64 for MobileNetV2) and save
     them to `data/processed/` for fast reload in the training notebook.
 
-- [ ] Section 1 — Setup and data loading
+- [x] Section 1 — Setup and data loading
   - Set seeds
   - Load FER2013 via `src.data.loader.load_fer2013`
   - Print shapes again to confirm starting point
