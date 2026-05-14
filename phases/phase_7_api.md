@@ -16,7 +16,7 @@ duplicated logic.
 
 ### `src/api/schemas.py`
 
-- [ ] `PredictionResponse`:
+- [x] `PredictionResponse`:
   - `emotion: str`
   - `confidence: float`
   - `probabilities: Dict[str, float]`  # emotion → probability
