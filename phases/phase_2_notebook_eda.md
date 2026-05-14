@@ -32,7 +32,7 @@ a 2-5 sentence markdown cell explaining WHAT and WHY.
   - Decision documented: use class weights, consider focused augmentation
     for Disgust and Fear
 
-- [ ] Section 3 — Sample grid per class
+- [x] Section 3 — Sample grid per class
   - 8 random sample images per emotion (7×8 grid)
   - Markdown: intra-class variability, visual similarity between certain
     emotions (Fear/Surprise, Sad/Neutral, Angry/Disgust)
