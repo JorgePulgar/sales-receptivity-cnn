@@ -62,7 +62,7 @@ duplicated logic.
 
 ### Error handling
 
-- [ ] 400 Bad Request: file not provided or wrong content-type
+- [x] 400 Bad Request: file not provided or wrong content-type
 - [ ] 422 Unprocessable Entity: file is not a valid image / video
 - [ ] 500 Internal Server Error with a clear message if model inference fails
 
