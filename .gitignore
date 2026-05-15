@@ -9,3 +9,4 @@ venv/
 .kaggle/
 .claude/
 demo/sample_videos/
+examples/
