@@ -8,6 +8,7 @@
 
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 import cv2
@@ -305,65 +306,154 @@ if mode == "Recorded video":
 elif mode == "Webcam":
     st.title("Live Webcam Analysis")
 
-    photo = st.camera_input("Take a photo")
+    if _model_path is None:
+        st.error("No model loaded — train one in Notebook 3.")
+        st.stop()
 
-    if photo is not None:
-        if _model_path is None:
-            st.error("No model loaded — train one in Notebook 3.")
-        else:
-            raw = np.frombuffer(photo.getvalue(), np.uint8)
-            frame = cv2.imdecode(raw, cv2.IMREAD_COLOR)
+    cam_detector = get_detector()
+    cam_classifier = get_classifier(str(_model_path), _input_size, _use_rgb)
 
-            cam_detector = get_detector()
-            cam_classifier = get_classifier(str(_model_path), _input_size, _use_rgb)
+    # Rolling state survives across Run / Stop toggles so the receptivity index
+    # window does not reset every time the user pauses.
+    if "receptivity_index" not in st.session_state:
+        st.session_state.receptivity_index = ReceptivityIndex(
+            window_size=window_size, weight_by_confidence=weight_by_confidence
+        )
+    if "emotion_history" not in st.session_state:
+        st.session_state.emotion_history = []
+    if "index_history" not in st.session_state:
+        st.session_state.index_history = []
 
-            if "receptivity_index" not in st.session_state:
-                st.session_state.receptivity_index = ReceptivityIndex(
-                    window_size=window_size, weight_by_confidence=weight_by_confidence
-                )
-            cam_ri = st.session_state.receptivity_index
+    cam_ri = st.session_state.receptivity_index
 
-            bbox = cam_detector.detect_largest(frame)
-            if bbox is None:
-                st.warning("No face detected — try better lighting or move closer.")
-                st.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            else:
-                x, y, w, h = bbox
+    run = st.checkbox(
+        "▶ Run live analysis",
+        value=False,
+        help=(
+            "Captures frames from the default webcam continuously. Untick to "
+            "stop and release the camera."
+        ),
+    )
+
+    col_video, col_stats = st.columns([2, 1])
+    frame_slot = col_video.empty()
+    emotion_slot = col_stats.empty()
+    metric_slot = col_stats.empty()
+    chart_slot = st.empty()
+    bar_slot = st.empty()
+
+    TARGET_FPS = 8                       # ~125 ms per frame — comfortable for the model
+    FRAME_INTERVAL = 1.0 / TARGET_FPS
+    MAX_INDEX_POINTS = 240               # last ~30 s at 8 fps
+    MAX_EMOTION_POINTS = 480             # last ~60 s at 8 fps
+    CHART_REDRAW_EVERY = 4               # update charts every 4 frames to avoid Streamlit overhead
+
+    def _render_no_face(display_frame: np.ndarray) -> None:
+        frame_slot.image(
+            cv2.cvtColor(display_frame, cv2.COLOR_BGR2RGB), use_column_width=True
+        )
+        emotion_slot.markdown("**No face detected** — try better lighting or move closer.")
+
+    def _draw_label(img: np.ndarray, bbox: tuple, text: str) -> None:
+        x, y, w, h = bbox
+        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 220, 80), 2)
+        cv2.putText(
+            img, text, (x, max(y - 8, 18)),
+            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 220, 80), 2, cv2.LINE_AA,
+        )
+
+    if run:
+        # CAP_DSHOW = DirectShow backend on Windows; more reliable webcam open
+        # than the default. Fallback to the default backend on non-Windows.
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) if sys.platform.startswith("win") \
+            else cv2.VideoCapture(0)
+        if not cap.isOpened():
+            st.error(
+                "Could not open the webcam. Close any other app that may be "
+                "using it (Zoom, Teams, OBS) and tick Run again."
+            )
+            st.stop()
+
+        frame_count = 0
+        try:
+            while run:
+                tick = time.time()
+                ret, frame = cap.read()
+                if not ret:
+                    break
+
                 display = frame.copy()
-                cv2.rectangle(display, (x, y), (x + w, y + h), (0, 220, 80), 2)
-                st.image(
-                    cv2.cvtColor(display, cv2.COLOR_BGR2RGB),
-                    caption="Detected face",
-                    use_column_width=True,
-                )
-                roi = cam_detector.extract_roi(
-                    frame, bbox, _input_size, to_grayscale=not _use_rgb
-                )
-                emotion, confidence, _ = cam_classifier.predict(roi)
-                idx_val = cam_ri.update(emotion, confidence)
+                bbox = cam_detector.detect_largest(frame)
 
-                st.markdown(
-                    f"**Predicted emotion:** {emotion.capitalize()}  \n"
-                    f"**Confidence:** {confidence:.1%}"
-                )
+                if bbox is None:
+                    _render_no_face(display)
+                else:
+                    roi = cam_detector.extract_roi(
+                        frame, bbox, _input_size, to_grayscale=not _use_rgb
+                    )
+                    emotion, confidence, _ = cam_classifier.predict(roi)
+                    idx_val = cam_ri.update(emotion, confidence)
 
-                st.metric("Current Receptivity Index", f"{idx_val:.2f} / 10")
+                    _draw_label(display, bbox, f"{emotion} ({confidence:.0%})")
+                    frame_slot.image(
+                        cv2.cvtColor(display, cv2.COLOR_BGR2RGB),
+                        use_column_width=True,
+                    )
+                    emotion_slot.markdown(
+                        f"**Emotion:** {emotion.capitalize()}  \n"
+                        f"**Confidence:** {confidence:.1%}"
+                    )
+                    metric_slot.metric("Receptivity Index", f"{idx_val:.2f} / 10")
 
-                if "emotion_history" not in st.session_state:
-                    st.session_state.emotion_history: list[str] = []
-                st.session_state.emotion_history.append(emotion)
-                hist = {
+                    st.session_state.emotion_history.append(emotion)
+                    st.session_state.index_history.append(idx_val)
+
+                    if len(st.session_state.index_history) > MAX_INDEX_POINTS:
+                        st.session_state.index_history = (
+                            st.session_state.index_history[-MAX_INDEX_POINTS:]
+                        )
+                    if len(st.session_state.emotion_history) > MAX_EMOTION_POINTS:
+                        st.session_state.emotion_history = (
+                            st.session_state.emotion_history[-MAX_EMOTION_POINTS:]
+                        )
+
+                    frame_count += 1
+                    if frame_count % CHART_REDRAW_EVERY == 0:
+                        chart_slot.line_chart(
+                            pd.DataFrame(
+                                {"Receptivity": st.session_state.index_history}
+                            )
+                        )
+                        bar_slot.bar_chart(
+                            {
+                                e: st.session_state.emotion_history.count(e)
+                                for e in config.EMOTION_LABELS
+                            }
+                        )
+
+                elapsed = time.time() - tick
+                if elapsed < FRAME_INTERVAL:
+                    time.sleep(FRAME_INTERVAL - elapsed)
+        finally:
+            cap.release()
+    else:
+        st.info(
+            "Tick **Run live analysis** to start the webcam. Untick to stop. "
+            "The receptivity index and emotion history persist across pauses; "
+            "use the Reset button below to clear them."
+        )
+        if st.session_state.index_history:
+            chart_slot.line_chart(
+                pd.DataFrame({"Receptivity": st.session_state.index_history})
+            )
+            bar_slot.bar_chart(
+                {
                     e: st.session_state.emotion_history.count(e)
                     for e in config.EMOTION_LABELS
                 }
-                st.bar_chart(hist)
-
-                if "index_history" not in st.session_state:
-                    st.session_state.index_history = []
-                st.session_state.index_history.append(idx_val)
-                st.line_chart(st.session_state.index_history)
+            )
 
     if st.button("Reset session"):
         for key in ("emotion_history", "index_history", "receptivity_index"):
             st.session_state.pop(key, None)
-        st.rerun()
+        st.experimental_rerun()
