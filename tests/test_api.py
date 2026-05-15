@@ -18,10 +18,10 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from src import config
 
 _MODEL_CANDIDATES = [
-    config.MODELS_DIR / "custom_cnn.keras",
-    config.MODELS_DIR / "custom_cnn.h5",
-    config.MODELS_DIR / "mobilenet_finetune.keras",
-    config.MODELS_DIR / "mobilenet_finetune.h5",
+    config.MODELS_DIR / "mobilenet_ft.keras",
+    config.MODELS_DIR / "mobilenet_ft.h5",
+    config.MODELS_DIR / "cnn_custom.keras",
+    config.MODELS_DIR / "cnn_custom.h5",
 ]
 _model_available = any(p.exists() for p in _MODEL_CANDIDATES)
 
