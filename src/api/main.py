@@ -48,10 +48,10 @@ _model_input_size: Optional[tuple] = None
 def _find_model() -> Optional[Path]:
     """Return the first available trained model from models/."""
     for candidate in [
-        config.MODELS_DIR / "custom_cnn.keras",
-        config.MODELS_DIR / "custom_cnn.h5",
-        config.MODELS_DIR / "mobilenet_finetune.keras",
-        config.MODELS_DIR / "mobilenet_finetune.h5",
+        config.MODELS_DIR / "mobilenet_ft.keras",
+        config.MODELS_DIR / "mobilenet_ft.h5",
+        config.MODELS_DIR / "cnn_custom.keras",
+        config.MODELS_DIR / "cnn_custom.h5",
     ]:
         if candidate.exists():
             return candidate

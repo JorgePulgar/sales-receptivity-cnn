@@ -189,8 +189,8 @@ class TestMapFunctions:
 # EmotionClassifier — skipped when no model file is present
 # ---------------------------------------------------------------------------
 
-_MODEL_PATH = config.MODELS_DIR / "custom_cnn.keras"
-_MODEL_PATH_H5 = config.MODELS_DIR / "custom_cnn.h5"
+_MODEL_PATH = config.MODELS_DIR / "cnn_custom.keras"
+_MODEL_PATH_H5 = config.MODELS_DIR / "cnn_custom.h5"
 _model_available = _MODEL_PATH.exists() or _MODEL_PATH_H5.exists()
 
 
