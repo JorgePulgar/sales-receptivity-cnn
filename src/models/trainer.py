@@ -12,9 +12,12 @@ def get_default_callbacks(
 ) -> List[keras.callbacks.Callback]:
     """Return the standard set of training callbacks.
 
-    Includes EarlyStopping (patience=7, restores best weights),
-    ReduceLROnPlateau (patience=3, factor=0.5), and ModelCheckpoint
-    saving the epoch with the lowest validation loss.
+    Includes EarlyStopping (patience=12, restores best weights),
+    ReduceLROnPlateau (patience=5, factor=0.5), and ModelCheckpoint
+    saving the epoch with the lowest validation loss. Patience is wide
+    because FER2013 training spends ~6-8 epochs in a majority-class
+    plateau before escaping; shorter patience kills training during that
+    exact window.
 
     Args:
         model_name: Used to name the checkpoint file (e.g. 'cnn_custom').
@@ -27,12 +30,12 @@ def get_default_callbacks(
     return [
         keras.callbacks.EarlyStopping(
             monitor="val_loss",
-            patience=7,
+            patience=12,
             restore_best_weights=True,
         ),
         keras.callbacks.ReduceLROnPlateau(
             monitor="val_loss",
-            patience=3,
+            patience=5,
             factor=0.5,
             min_lr=1e-7,
         ),

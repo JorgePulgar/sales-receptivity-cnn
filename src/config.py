@@ -37,6 +37,6 @@ EMOTION_TO_SIGNAL: dict[str, str] = {
 
 # --- Hyperparameters ---
 IMG_SIZE_CUSTOM = (48, 48)      # Native FER2013 resolution
-IMG_SIZE_MOBILENET = (64, 64)   # Minimum viable input for MobileNetV2
+IMG_SIZE_MOBILENET = (96, 96)   # MobileNetV2's official minimum useful size — 64×64 collapses the backbone to a 2×2 feature map
 BATCH_SIZE = 64
 RANDOM_SEED = 42
