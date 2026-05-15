@@ -30,6 +30,7 @@ pydantic==2.6.1
 
 # Demo
 streamlit==1.18.1
+altair==4.2.2  # streamlit 1.18 imports altair.vegalite.v4; altair >=5 dropped that path
 
 # Jupyter
 jupyter==1.0.0
