@@ -22,6 +22,7 @@ sales-receptivity-cnn/
 │   ├── phase_6_notebook_evaluation.md
 │   ├── phase_7_api.md
 │   ├── phase_8_demo.md
+│   ├── phase_10_tfjs_demo.md  # Phase 10 runs BEFORE phase 9 (web demo, ripples into README)
 │   └── phase_9_polish.md
 ├── notebooks/                 # Pedagogical notebooks (phases 2, 3, 5, 6)
 │   ├── 01_eda.ipynb
@@ -49,8 +50,18 @@ sales-receptivity-cnn/
 │       ├── __init__.py
 │       ├── main.py            # FastAPI app and endpoints
 │       └── schemas.py         # Pydantic request/response models
-├── demo/                      # Streamlit demo
+├── demo/                      # Streamlit demo (local, full-featured)
 │   └── app.py
+├── docs/                      # GitHub Pages site — public TF.js web demo
+│   ├── .nojekyll              # Disables Jekyll so underscore-prefixed files are served
+│   ├── index.html
+│   ├── style.css
+│   ├── app.js
+│   └── models/                # TF.js-converted weights (TRACKED in git — required by Pages)
+│       ├── cnn_custom/
+│       └── mobilenet_ft/
+├── scripts/                   # One-off utility scripts (not imported by src/ or notebooks)
+│   └── export_tfjs.py         # Converts .keras → TF.js layers model into docs/models/
 ├── models/                    # Trained model artifacts (gitignored)
 │   ├── cnn_custom.keras
 │   ├── mobilenet_ft.keras
@@ -76,3 +87,9 @@ sales-receptivity-cnn/
 - Raw data lives in `data/raw/` (gitignored). Processed tensors live in
   `data/processed/` (gitignored)
 - Notebooks are numbered `01_`, `02_`, `03_`, `04_` following the phase order
+- `docs/models/` is the ONE intentional exception to "do not commit models":
+  GitHub Pages must serve the TF.js weights, and the current `.gitignore`
+  rules (`models/*.keras`, `models/*.h5`) do not match this path so the files
+  are tracked normally
+- `scripts/` is for utilities run by hand (model export, data prep one-offs).
+  Nothing in `src/` or the notebooks should import from `scripts/`
