@@ -44,6 +44,11 @@ kaggle==1.6.6
 pytest==8.0.1
 httpx==0.26.0
 
+# TF.js export (phase 10)
+# tensorflowjs 4.x requires TF >= 2.12; 3.21.0 is the last release that
+# accepts TF 2.10.x without upgrading the core stack.
+tensorflowjs==3.21.0
+
 # Utilities
 tqdm==4.66.2
 python-dotenv==1.0.1
