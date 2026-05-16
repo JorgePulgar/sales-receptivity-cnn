@@ -80,6 +80,7 @@ def train_model(
             batch_size=batch_size,
             class_weight=class_weights,
             callbacks=callbacks,
+            verbose=2,
         )
     return model.fit(
         train_data,
@@ -87,6 +88,7 @@ def train_model(
         epochs=epochs,
         class_weight=class_weights,
         callbacks=callbacks,
+        verbose=2,
     )
 
 
