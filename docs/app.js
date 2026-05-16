@@ -324,3 +324,82 @@ function drawEmChart() {
     );
   });
 }
+
+// ── DOM refs ──────────────────────────────────────────────────────────────────
+
+const videoEl      = document.getElementById('video');
+const canvasEl     = document.getElementById('canvas');
+const ctx          = canvasEl.getContext('2d');
+const startBtn     = document.getElementById('start-btn');
+const modelSelect  = document.getElementById('model-select');
+const windowSlider = document.getElementById('window-slider');
+const windowValEl  = document.getElementById('window-val');
+const statusEl     = document.getElementById('status-msg');
+
+const emotionBadge  = document.getElementById('emotion-badge');
+const emotionConfEl = document.getElementById('emotion-conf');
+const emotionSigEl  = document.getElementById('emotion-signal');
+const riValueEl     = document.getElementById('ri-value');
+const riBarEl       = document.getElementById('ri-bar');
+const riChartEl     = document.getElementById('ri-chart');
+const emChartEl     = document.getElementById('em-chart');
+
+function setStatus(msg, error = false) {
+  statusEl.textContent = msg;
+  statusEl.style.color = error ? '#f87171' : '#888';
+}
+
+// ── Event handlers ────────────────────────────────────────────────────────────
+
+startBtn.addEventListener('click', async () => {
+  if (startBtn.classList.contains('active')) {
+    cancelAnimationFrame(rafId);
+    videoEl.srcObject?.getTracks().forEach(t => t.stop());
+    videoEl.srcObject = null;
+    startBtn.textContent = 'Start camera';
+    startBtn.classList.remove('active');
+    setStatus('');
+    return;
+  }
+
+  setStatus('Requesting camera access…');
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    videoEl.srcObject = stream;
+    await new Promise(res => { videoEl.onloadedmetadata = res; });
+    videoEl.play();
+  } catch (e) {
+    setStatus(
+      e.name === 'NotAllowedError'
+        ? 'Camera access denied — allow camera in browser settings and reload.'
+        : `Camera error: ${e.message}`,
+      true,
+    );
+    return;
+  }
+
+  setStatus('Loading face detector…');
+  if (!faceDetector) await loadFaceDetector();
+
+  await loadEmotionModel(currentModel);
+
+  startBtn.textContent = 'Stop';
+  startBtn.classList.add('active');
+  lastFrameMs = 0;
+  rafId = requestAnimationFrame(processFrame);
+});
+
+modelSelect.addEventListener('change', async () => {
+  currentModel = modelSelect.value;
+  if (!startBtn.classList.contains('active')) return;
+  cancelAnimationFrame(rafId);
+  await loadEmotionModel(currentModel);
+  lastFrameMs = 0;
+  rafId = requestAnimationFrame(processFrame);
+});
+
+windowSlider.addEventListener('input', () => {
+  const n = parseInt(windowSlider.value, 10);
+  windowValEl.textContent = n;
+  receptivity.setWindowSize(n);
+});

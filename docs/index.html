@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Receptivity — Live Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Sales Receptivity Analyser</h1>
+  <p>Real-time emotion detection · client-side inference · no data leaves your browser</p>
+</header>
+
+<main class="main">
+
+  <!-- Camera + controls -->
+  <section class="camera-panel">
+    <video id="video" autoplay playsinline muted></video>
+    <canvas id="canvas"></canvas>
+
+    <div class="controls">
+      <select id="model-select">
+        <option value="mobilenet_ft">MobileNetV2 fine-tuned</option>
+        <option value="cnn_custom">Custom CNN</option>
+      </select>
+
+      <label class="slider-wrap">
+        <span>Window</span>
+        <input type="range" id="window-slider" min="5" max="30" value="10">
+        <span id="window-val">10</span>
+      </label>
+
+      <button id="start-btn">Start camera</button>
+    </div>
+
+    <p id="status-msg"></p>
+  </section>
+
+  <!-- Stats -->
+  <aside class="stats-panel">
+
+    <div class="card">
+      <div class="card-title">Detected emotion</div>
+      <div id="emotion-badge" class="emotion-badge em-neutral">—</div>
+      <div id="emotion-conf"   class="emotion-conf"></div>
+      <div id="emotion-signal" class="emotion-signal"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Receptivity index (0 – 10)</div>
+      <div id="ri-value" class="ri-value">—</div>
+      <div class="ri-bar-track">
+        <div id="ri-bar" class="ri-bar-fill" style="width:50%"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Receptivity trend (last 30 s)</div>
+      <canvas id="ri-chart" class="chart-canvas"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Emotion frequency</div>
+      <canvas id="em-chart" class="chart-canvas"></canvas>
+    </div>
+
+  </aside>
+</main>
+
+<!-- TF.js first, then BlazeFace (needs tf global), then app logic -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
