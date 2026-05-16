@@ -13,7 +13,7 @@ written. If phase 10 has not been completed, pause here and finish it first.
 
 ### Final README
 
-- [ ] **Live Demo badge at the top of the README** — large, prominent link to
+- [x] **Live Demo badge at the top of the README** — large, prominent link to
   the GitHub Pages URL (`https://<user>.github.io/sales-receptivity-cnn/`).
   Phrase: "Try it now in your browser — no install required."
 - [ ] Project overview — 2-3 paragraphs describing the business case and the system

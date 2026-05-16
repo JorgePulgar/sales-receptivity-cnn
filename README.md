@@ -2,7 +2,7 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-6366f1?style=for-the-badge&logo=github)](https://jorgepulgar.github.io/sales-receptivity-cnn/)
 
-**[▶ Open live demo](https://jorgepulgar.github.io/sales-receptivity-cnn/)** — runs entirely in the browser, no install required.
+**[▶ Try it now in your browser — no install required.](https://jorgepulgar.github.io/sales-receptivity-cnn/)**
 
 ![Web demo — neutral face, 63 % confidence](docs/neutral63.PNG)
 
