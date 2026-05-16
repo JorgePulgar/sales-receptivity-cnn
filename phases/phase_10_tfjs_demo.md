@@ -37,13 +37,13 @@ presentation. This phase is purely additive.
 
 ### Face detection in the browser
 
-- [ ] Use `@tensorflow-models/face-detection` (BlazeFace backend) loaded from
+- [x] Use `@tensorflow-models/face-detection` (BlazeFace backend) loaded from
   CDN — same TF.js runtime as the emotion model, no dependency conflict.
   Decision: BlazeFace over face-api.js (lighter, no secondary TF.js instance)
   and over MediaPipe (no WASM setup required).
-- [ ] Wrap detection in a `detectFace(videoEl)` function that returns the
+- [x] Wrap detection in a `detectFace(videoEl)` function that returns the
   bounding box of the largest face (or `null`).
-- [ ] **Document the detector mismatch with the Streamlit demo:** local uses
+- [x] **Document the detector mismatch with the Streamlit demo:** local uses
   OpenCV Haar Cascades, web uses BlazeFace. Bounding boxes differ → cropped
   ROIs differ → predictions will not be bit-identical between the two demos.
   This is acceptable; note it in the README's limitations section so it is
@@ -51,10 +51,10 @@ presentation. This phase is purely additive.
 
 ### Real-time inference loop (`docs/app.js`)
 
-- [ ] Access camera via `navigator.mediaDevices.getUserMedia({ video: true })`
-- [ ] Draw the video stream to a `<canvas>` at ~8 fps using
+- [x] Access camera via `navigator.mediaDevices.getUserMedia({ video: true })`
+- [x] Draw the video stream to a `<canvas>` at ~8 fps using
   `requestAnimationFrame` throttled by elapsed time
-- [ ] Per frame pipeline:
+- [x] Per frame pipeline:
   1. `detectFace` → get bounding box
   2. Extract ROI from canvas as `ImageData`
   3. Preprocess:
@@ -67,31 +67,31 @@ presentation. This phase is purely additive.
   6. Update receptivity index (rolling window, reimplemented in JS)
   7. Redraw canvas overlay (bounding box + label)
   8. Update UI metrics
-- [ ] Wrap the per-frame pipeline in `tf.tidy()` so intermediate tensors are
+- [x] Wrap the per-frame pipeline in `tf.tidy()` so intermediate tensors are
   auto-disposed. Manual `dispose()` is error-prone — `tf.tidy()` covers the
   whole scope. Only the final softmax vector needs `.array()`-ing out before
   the tidy block ends.
 
 ### Receptivity index in JS
 
-- [ ] Reimplement `ReceptivityIndex` as a plain JS class:
+- [x] Reimplement `ReceptivityIndex` as a plain JS class:
   - Same emotion → score mapping as `src/inference/receptivity_mapper.py`
   - Same rolling weighted-average logic (window size configurable)
   - No external library needed
 
 ### UI (`docs/index.html` + `docs/style.css`)
 
-- [ ] Video canvas (left) + stats panel (right) layout
-- [ ] Model selector dropdown: "MobileNetV2 fine-tuned" / "Custom CNN" —
+- [x] Video canvas (left) + stats panel (right) layout
+- [x] Model selector dropdown: "MobileNetV2 fine-tuned" / "Custom CNN" —
   switching unloads the current model and loads the new one without page reload
-- [ ] Window-size slider (5–30, default 10), same as the Streamlit sidebar
-- [ ] Emotion badge: label + confidence percentage, colour-coded per emotion
-- [ ] Receptivity index metric: large number + 0–10 scale bar
-- [ ] Rolling receptivity chart: last 30 s of values (plain `<canvas>` with
+- [x] Window-size slider (5–30, default 10), same as the Streamlit sidebar
+- [x] Emotion badge: label + confidence percentage, colour-coded per emotion
+- [x] Receptivity index metric: large number + 0–10 scale bar
+- [x] Rolling receptivity chart: last 30 s of values (plain `<canvas>` with
   manual draw — no Chart.js dependency to keep load time minimal)
-- [ ] Emotion frequency bar chart (same approach)
-- [ ] "No face detected" indicator
-- [ ] "Camera access denied" error state with instructions
+- [x] Emotion frequency bar chart (same approach)
+- [x] "No face detected" indicator
+- [x] "Camera access denied" error state with instructions
 
 ### GitHub Pages setup
 
