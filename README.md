@@ -230,12 +230,20 @@ version of what made the final results possible.
 
 ### TF 2.10 weighted-loss bug
 
-Passing `class_weight` or `sample_weight` to `model.fit()` on TF 2.10
-with one-hot labels collapses training to uniform output: loss freezes
-at `log(num_classes)` and val_accuracy stays at chance level for the
-entire run. Both routes are broken — `class_weight` directly, and
-`sample_weight` through a `keras.utils.Sequence` returning `(x, y, w)`
-triples.
+Passing `class_weight` to `model.fit()` on TF 2.10 with one-hot labels
+collapses training to uniform output: loss freezes at exactly
+`log(num_classes) ≈ 1.946` and val_accuracy locks at the majority-class
+frequency (Happy, 25 %) for the entire run. The first attempted workaround
+was to convert class weights into per-sample weights and return `(x, y, w)`
+triples from the augmentation `Sequence`. That collapses training for the
+same reason — TF 2.10's weighted-loss path is broken for one-hot labels
+regardless of whether weights arrive via `class_weight` or `sample_weight`.
+
+The diagnostic signature: training loss flat at
+`log(num_classes) × mean(weights)`, val_accuracy locked at exactly the
+majority-class frequency. Adjusting LR or number of epochs does nothing —
+the model is in the uniform-output minimum and there are no gradients pushing
+it out.
 
 The workaround is to **not use weighting at all** and absorb the FER2013
 imbalance with augmentation + light dropout. The class-weight values are
@@ -262,6 +270,28 @@ after its ~32× internal downsampling — almost no information for
 accuracy. Raising the input to **96×96** (the official minimum useful
 size for MobileNetV2) gave the backbone a 3×3 feature map and recovered
 the entire 15-point gap, putting MobileNetV2 ahead of the custom CNN.
+
+### Augmentation pipeline assumed grayscale
+
+When MobileNetV2 Stage 1 reused the same augmentation pipeline as the custom
+CNN, the first training batch failed immediately:
+
+```
+ValueError: too many values to unpack (expected 2)
+  h, w = img.shape
+```
+
+`random_transform` was written for `(H, W, 1)` grayscale inputs and called
+`img = x.squeeze().copy()`, which collapses the singleton channel to `(H, W)`.
+`h, w = img.shape` then unpacks cleanly. On MobileNetV2's `(96, 96, 3)` RGB
+inputs, `squeeze()` is a no-op — `img.shape` stays `(96, 96, 3)` — and the
+two-variable unpack fails.
+
+The fix was to track whether the input had a singleton channel and squeeze only
+in that case, use `img.shape[:2]` for spatial dimensions, and re-attach the
+singleton at the end for grayscale. The cv2 transforms (`warpAffine`, flip,
+brightness multiply) are channel-agnostic, so the body of the function did not
+change.
 
 ### Label smoothing
 
