@@ -80,3 +80,37 @@ class ReceptivityIndex {
   reset() { this._scores = []; this._confs = []; this._history = []; }
   get history() { return this._history; }
 }
+
+// ── Face detection ────────────────────────────────────────────────────────────
+// Uses BlazeFace loaded from CDN.
+//
+// Detector mismatch note: the Streamlit demo uses OpenCV Haar Cascades; this
+// demo uses BlazeFace.  Bounding boxes differ between the two detectors, so
+// cropped ROIs differ and predictions will not be bit-identical across demos.
+// This is expected — it is not a model bug.
+
+let faceDetector = null;
+
+async function loadFaceDetector() {
+  faceDetector = await blazeface.load();
+}
+
+// Returns { x, y, w, h } for the largest face in the frame, or null.
+async function detectFace(video) {
+  if (!faceDetector || video.readyState < 2) return null;
+  const preds = await faceDetector.estimateFaces(video, /* returnTensors */ false);
+  if (!preds || !preds.length) return null;
+
+  let best = null, bestArea = -1;
+  for (const p of preds) {
+    const [x1, y1] = p.topLeft;
+    const [x2, y2] = p.bottomRight;
+    const area = (x2 - x1) * (y2 - y1);
+    if (area > bestArea) { bestArea = area; best = p; }
+  }
+  if (!best) return null;
+
+  const [x1, y1] = best.topLeft;
+  const [x2, y2] = best.bottomRight;
+  return { x: Math.max(0, x1), y: Math.max(0, y1), w: x2 - x1, h: y2 - y1 };
+}
