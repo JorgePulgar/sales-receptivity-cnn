@@ -25,7 +25,7 @@ presentation. This phase is purely additive.
     needs a SavedModel intermediate; layers loads via `tf.loadLayersModel`
     in JS and is fast enough for 47 MB of weights. Revisit only if browser
     inference is the bottleneck.
-- [ ] Commit the exported `docs/models/` files to git — this is intentional
+- [x] Commit the exported `docs/models/` files to git — this is intentional
   and the only exception to the "do not commit models" rule. Total size is
   ~47 MB (cnn_custom 19.6 MB + mobilenet_ft 27.8 MB); GitHub Pages serves
   them directly; Git LFS is not needed.
