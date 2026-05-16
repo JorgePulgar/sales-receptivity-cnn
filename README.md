@@ -106,6 +106,9 @@ confidence — a noisy low-confidence prediction barely moves the index.
 
 ## Installation
 
+The public web demo needs no install. Local setup below is only for training
+and the full Streamlit demo.
+
 ### Prerequisites
 
 - Windows 10/11 or Linux. Native CUDA GPU support requires Windows

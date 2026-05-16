@@ -24,7 +24,7 @@ written. If phase 10 has not been completed, pause here and finish it first.
 - [ ] Demo screenshots — at least 4: receptivity timeline, session summary,
   webcam capture (Streamlit), AND the web demo running live in a browser
   (full canvas + stats panel visible)
-- [ ] Installation section:
+- [x] Installation section:
   - **Lead with: "The public web demo needs no install. Local setup below is
     only for training and the full Streamlit demo."**
   - Prerequisites: Python 3.10, NVIDIA GPU with CUDA 11.2 + cuDNN 8.1
