@@ -43,18 +43,28 @@ def _on_mode_change() -> None:
         st.session_state.pop(key, None)
 
 
-def _resolve_model():
-    """Return (path, input_size, use_rgb) for the best available model, or Nones."""
+def _on_model_change() -> None:
+    """Reset rolling webcam state when the user switches models."""
+    for key in ("receptivity_index", "emotion_history", "index_history"):
+        st.session_state.pop(key, None)
+
+
+def _list_available_models() -> dict:
+    """Return {display_name: (path, input_size, use_rgb)} for every model found on disk."""
     candidates = [
-        (config.MODELS_DIR / "mobilenet_ft.keras", config.IMG_SIZE_MOBILENET, True),
-        (config.MODELS_DIR / "mobilenet_ft.h5",    config.IMG_SIZE_MOBILENET, True),
-        (config.MODELS_DIR / "cnn_custom.keras",   config.IMG_SIZE_CUSTOM, False),
-        (config.MODELS_DIR / "cnn_custom.h5",      config.IMG_SIZE_CUSTOM, False),
+        ("MobileNetV2 fine-tuned", config.MODELS_DIR / "mobilenet_ft.keras", config.IMG_SIZE_MOBILENET, True),
+        ("MobileNetV2 fine-tuned", config.MODELS_DIR / "mobilenet_ft.h5",    config.IMG_SIZE_MOBILENET, True),
+        ("Custom CNN",             config.MODELS_DIR / "cnn_custom.keras",   config.IMG_SIZE_CUSTOM,    False),
+        ("Custom CNN",             config.MODELS_DIR / "cnn_custom.h5",      config.IMG_SIZE_CUSTOM,    False),
     ]
-    for p, size, rgb in candidates:
-        if p.exists():
-            return p, size, rgb
-    return None, None, None
+    seen: set = set()
+    result: dict = {}
+    for label, p, size, rgb in candidates:
+        if p.exists() and label not in seen:
+            result[label] = (p, size, rgb)
+            seen.add(label)
+    return result
+
 
 st.sidebar.title("Sales Receptivity CNN")
 st.sidebar.markdown(
@@ -71,13 +81,19 @@ window_size = st.sidebar.slider(
 )
 weight_by_confidence = st.sidebar.checkbox("Weight by confidence", value=True)
 
-_model_path, _input_size, _use_rgb = _resolve_model()
-if _model_path is not None:
+_available_models = _list_available_models()
+if _available_models:
+    _selected_model_label = st.sidebar.selectbox(
+        "Model", list(_available_models.keys()), on_change=_on_model_change
+    )
+    _model_path, _input_size, _use_rgb = _available_models[_selected_model_label]
     st.sidebar.info(
-        f"**Model loaded:** `{_model_path.name}`  \n"
-        f"Input size: {_input_size[1]}×{_input_size[0]} px"
+        f"**Model:** `{_model_path.name}`  \n"
+        f"Input: {_input_size[1]}×{_input_size[0]} px · "
+        f"{'RGB' if _use_rgb else 'Grayscale'}"
     )
 else:
+    _model_path, _input_size, _use_rgb = None, None, None
     st.sidebar.warning(
         "No trained model found in `models/`.  \n"
         "Train a model in Notebook 3 first."
