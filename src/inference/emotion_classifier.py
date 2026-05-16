@@ -98,7 +98,8 @@ class EmotionClassifier:
             face_roi = face_roi[:, :, 0]
         resized = cv2.resize(face_roi, (w, h), interpolation=cv2.INTER_LINEAR)
         arr = resized.astype(np.float32) / 255.0
-        arr = arr[..., np.newaxis]          # (H, W, 1)
-        if self._use_rgb:
+        if arr.ndim == 2:
+            arr = arr[..., np.newaxis]      # (H, W, 1)
+        if self._use_rgb and arr.shape[-1] == 1:
             arr = np.repeat(arr, 3, axis=-1)  # (H, W, 3)
         return arr[np.newaxis]              # (1, H, W, C)
