@@ -42,7 +42,7 @@ written. If phase 10 has not been completed, pause here and finish it first.
     upload and continuous webcam stream.
 - [x] Project structure — tree of folders with one-line descriptions
   (must include `docs/` and `scripts/`)
-- [ ] Limitations and ethical considerations — must include:
+- [x] Limitations and ethical considerations — must include:
   - Web demo runs TF.js on the browser's WebGL/CPU. Predictions are similar
     but not bit-identical to the Python pipeline.
   - Web demo uses BlazeFace; Streamlit demo uses OpenCV Haar Cascades.

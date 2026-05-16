@@ -326,6 +326,19 @@ sales-receptivity-cnn/
 
 ## Limitations and ethical considerations
 
+### Web demo vs. local pipeline
+
+The web demo runs TF.js on the browser's WebGL/CPU. Predictions are similar
+but **not bit-identical** to the Python pipeline: floating-point rounding
+differs between TF.js and TensorFlow's native kernels, and the TF.js
+model is converted from the Keras checkpoint rather than re-trained.
+
+The web demo uses **BlazeFace** for face detection; the Streamlit demo uses
+**OpenCV Haar Cascades**. The two detectors produce different bounding boxes
+for the same input, so the face crop fed to the emotion classifier differs
+between the two demos — predictions will not match exactly even on identical
+video frames. This is expected behaviour.
+
 ### Generalisation from FER2013 to real webcam conditions
 
 FER2013 images are 48×48 crops collected from internet searches under
