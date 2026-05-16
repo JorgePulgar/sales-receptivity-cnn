@@ -221,15 +221,16 @@ async function processFrame(now) {
   isProcessing = true;
 
   try {
-    const vw = videoEl.videoWidth  || 640;
-    const vh = videoEl.videoHeight || 480;
-    if (canvasEl.width  !== vw) canvasEl.width  = vw;
-    if (canvasEl.height !== vh) canvasEl.height = vh;
-    ctx.drawImage(videoEl, 0, 0);
+    if (!videoEl.videoWidth) return;
 
-    if (!emotionModel || isLoadingModel) return;
+    // 1. Detect on the live video element BEFORE touching the canvas.
+    //    This way the video frame and its overlay are composed atomically —
+    //    there is no intermediate state where the canvas shows fresh video
+    //    without an overlay (which caused the visible flicker).
+    const detected = (emotionModel && !isLoadingModel)
+      ? await detectFace(videoEl)
+      : null;
 
-    const detected = await detectFace(videoEl);
     if (detected) {
       lastBbox     = lerpBbox(lastBbox, detected);
       noFaceFrames = 0;
@@ -237,6 +238,16 @@ async function processFrame(now) {
       noFaceFrames++;
       if (noFaceFrames >= NO_FACE_HOLD) lastBbox = null;
     }
+
+    // 2. Draw video frame + overlay in one synchronous block.
+    const vw = videoEl.videoWidth;
+    const vh = videoEl.videoHeight;
+    if (canvasEl.width  !== vw) canvasEl.width  = vw;
+    if (canvasEl.height !== vh) canvasEl.height = vh;
+    ctx.drawImage(videoEl, 0, 0);
+
+    if (!emotionModel || isLoadingModel) return;
+
     const bbox = lastBbox;
 
     if (!bbox) {
