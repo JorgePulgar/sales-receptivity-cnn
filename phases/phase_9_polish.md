@@ -35,8 +35,8 @@ written. If phase 10 has not been completed, pause here and finish it first.
   - Configure Kaggle API
   - `kaggle datasets download -d msambare/fer2013 -p data/raw/ --unzip`
 - [ ] Running the notebooks section (order: 01 → 02 → 03 → 04, approximate run times)
-- [ ] Running the API section (`uvicorn src.api.main:app --reload`, Swagger UI URL)
-- [ ] Running the demos section — covers BOTH:
+- [x] Running the API section (`uvicorn src.api.main:app --reload`, Swagger UI URL)
+- [x] Running the demos section — covers BOTH:
   - **Web demo (public):** open the GitHub Pages URL, allow camera, done.
   - **Streamlit demo (local):** `streamlit run demo/app.py`, supports video
     upload and continuous webcam stream.

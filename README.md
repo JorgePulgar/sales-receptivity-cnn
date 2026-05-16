@@ -179,10 +179,18 @@ Endpoints:
 
 - `GET  /health` — service status and which model is loaded
 - `POST /predict/image` — single JPEG/PNG → emotion + confidence + receptivity score
-- `POST /predict/batch` — list of frames, returns one prediction per frame
-- `POST /predict/video` — video file, returns per-frame analyses + session summary
+- `POST /predict/session` — video file, returns per-frame analyses and a session summary (dominant emotion, mean receptivity, peak/valley frames)
 
-### 3. Streamlit demo
+### 3. Demos
+
+#### Web demo (public — no install)
+
+Open [https://jorgepulgar.github.io/sales-receptivity-cnn/](https://jorgepulgar.github.io/sales-receptivity-cnn/)
+in any modern browser, grant camera permission, and the demo starts immediately.
+Runs TF.js on the browser's WebGL/CPU — no server, no install. Works on desktop
+and mobile.
+
+#### Streamlit demo (local — full-featured)
 
 ```bash
 streamlit run demo/app.py
