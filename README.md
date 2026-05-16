@@ -4,6 +4,8 @@
 
 **[▶ Open live demo](https://jorgepulgar.github.io/sales-receptivity-cnn/)** — runs entirely in the browser, no install required.
 
+![Web demo — neutral face, 63 % confidence](docs/neutral63.png)
+
 > **Note:** The web demo uses BlazeFace for face detection while the local Streamlit
 > demo uses OpenCV Haar Cascades. Bounding boxes differ between the two detectors,
 > so predictions are not bit-identical across demos — this is expected behaviour.
