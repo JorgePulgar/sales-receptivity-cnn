@@ -65,7 +65,7 @@ written. If phase 10 has not been completed, pause here and finish it first.
 
 ### Notebook cleanup
 
-- [ ] Clear all `stderr` outputs (FutureWarnings, deprecation warnings) from noisy cells
+- [x] Clear all `stderr` outputs (FutureWarnings, deprecation warnings) from noisy cells
 - [x] Reduce verbose training logs (`verbose=2` instead of `verbose=1` in `fit()`)
 - [ ] Remove leftover scratch cells and debug prints
 - [ ] Verify markdowns flow naturally — manual review step where Claude Code's
