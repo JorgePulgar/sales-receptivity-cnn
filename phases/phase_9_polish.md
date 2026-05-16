@@ -16,10 +16,10 @@ written. If phase 10 has not been completed, pause here and finish it first.
 - [x] **Live Demo badge at the top of the README** — large, prominent link to
   the GitHub Pages URL (`https://<user>.github.io/sales-receptivity-cnn/`).
   Phrase: "Try it now in your browser — no install required."
-- [ ] Project overview — 2-3 paragraphs describing the business case and the system
-- [ ] Architecture diagram — simple ASCII or hand-drawn image showing data flow:
+- [x] Project overview — 2-3 paragraphs describing the business case and the system
+- [x] Architecture diagram — simple ASCII or hand-drawn image showing data flow:
   video/webcam → face detection → CNN → emotion → receptivity index → output (API/UI)
-- [ ] Results summary — table with the final model's test accuracy, F1 macro,
+- [x] Results summary — table with the final model's test accuracy, F1 macro,
   inference time. One sentence per metric.
 - [ ] Demo screenshots — at least 4: receptivity timeline, session summary,
   webcam capture (Streamlit), AND the web demo running live in a browser
@@ -31,10 +31,10 @@ written. If phase 10 has not been completed, pause here and finish it first.
     (for GPU training) OR CPU-only mode
   - `python -m venv venv` and activation
   - `pip install -r requirements.txt`
-- [ ] Dataset setup section:
+- [x] Dataset setup section:
   - Configure Kaggle API
   - `kaggle datasets download -d msambare/fer2013 -p data/raw/ --unzip`
-- [ ] Running the notebooks section (order: 01 → 02 → 03 → 04, approximate run times)
+- [x] Running the notebooks section (order: 01 → 02 → 03 → 04, approximate run times)
 - [x] Running the API section (`uvicorn src.api.main:app --reload`, Swagger UI URL)
 - [x] Running the demos section — covers BOTH:
   - **Web demo (public):** open the GitHub Pages URL, allow camera, done.
@@ -48,7 +48,7 @@ written. If phase 10 has not been completed, pause here and finish it first.
   - Web demo uses BlazeFace; Streamlit demo uses OpenCV Haar Cascades.
     Bounding boxes (and therefore predictions) will differ slightly between
     the two demos for the same input.
-- [ ] License (MIT)
+- [x] License (MIT)
 
 ### End-to-end verification
 
@@ -73,16 +73,16 @@ written. If phase 10 has not been completed, pause here and finish it first.
 
 ### Repo hygiene
 
-- [ ] Verify `.gitignore` is complete (no `data/` or `models/*.keras` staged)
-- [ ] Add a comment in `.gitignore` next to the model rules clarifying that
+- [x] Verify `.gitignore` is complete (no `data/` or `models/*.keras` staged)
+- [x] Add a comment in `.gitignore` next to the model rules clarifying that
   `docs/models/` is intentionally tracked — the TF.js weights must ship
   with the GitHub Pages site
-- [ ] Verify `requirements.txt` exhaustively covers what was actually used
+- [x] Verify `requirements.txt` exhaustively covers what was actually used
   (test by reinstalling in a clean venv) — MUST include `tensorflowjs` from
   phase 10
-- [ ] Remove dead code from `src/` — but do NOT remove `scripts/export_tfjs.py`;
+- [x] Remove dead code from `src/` — but do NOT remove `scripts/export_tfjs.py`;
   it is intentional infrastructure, not dead code
-- [ ] Remove commented-out experimental blocks
+- [x] Remove commented-out experimental blocks
 
 ### Optional but recommended
 
