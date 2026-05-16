@@ -1,5 +1,13 @@
 # Sales Receptivity CNN
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-6366f1?style=for-the-badge&logo=github)](https://jorgepulgar.github.io/sales-receptivity-cnn/)
+
+**[▶ Open live demo](https://jorgepulgar.github.io/sales-receptivity-cnn/)** — runs entirely in the browser, no install required.
+
+> **Note:** The web demo uses BlazeFace for face detection while the local Streamlit
+> demo uses OpenCV Haar Cascades. Bounding boxes differ between the two detectors,
+> so predictions are not bit-identical across demos — this is expected behaviour.
+
 A real-time emotional-receptivity analyser for sales presentations. The
 system reads a video stream (recorded file or live webcam), detects the
 prospect's face, classifies their emotional state with a CNN trained on

@@ -95,15 +95,15 @@ presentation. This phase is purely additive.
 
 ### GitHub Pages setup
 
-- [ ] Add `docs/.nojekyll` (empty file — prevents Jekyll from processing the
+- [x] Add `docs/.nojekyll` (empty file — prevents Jekyll from processing the
   folder and mangling filenames with underscores)
-- [ ] Enable GitHub Pages in repo settings: source = `docs/` branch `main`
+- [x] Enable GitHub Pages in repo settings: source = `docs/` branch `main`
 - [ ] Verify the page loads at
-  `https://<username>.github.io/sales-receptivity-cnn/`
+  `https://jorgepulgar.github.io/sales-receptivity-cnn/`
 
 ### README update (done last)
 
-- [ ] Add a "Live Demo" badge/button at the top of the README linking to the
+- [x] Add a "Live Demo" badge/button at the top of the README linking to the
   GitHub Pages URL
 - [ ] Add one screenshot or short GIF of the web demo in action
 
