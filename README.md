@@ -304,7 +304,16 @@ sales-receptivity-cnn/
 │       ├── main.py                 # FastAPI app
 │       └── schemas.py              # Pydantic request / response models
 ├── demo/
-│   └── app.py                      # Streamlit two-mode demo
+│   └── app.py                      # Streamlit two-mode demo (local, full-featured)
+├── docs/                           # GitHub Pages site — public TF.js web demo
+│   ├── index.html
+│   ├── style.css
+│   ├── app.js
+│   └── models/                     # TF.js weights (tracked in git — required by Pages)
+│       ├── cnn_custom/
+│       └── mobilenet_ft/
+├── scripts/
+│   └── export_tfjs.py              # Converts .keras → TF.js layers format into docs/models/
 ├── models/                         # Trained artefacts (.keras gitignored)
 │   └── histories/                  # Training histories (tracked in git)
 ├── data/                           # Datasets (gitignored)

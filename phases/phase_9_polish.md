@@ -40,7 +40,7 @@ written. If phase 10 has not been completed, pause here and finish it first.
   - **Web demo (public):** open the GitHub Pages URL, allow camera, done.
   - **Streamlit demo (local):** `streamlit run demo/app.py`, supports video
     upload and continuous webcam stream.
-- [ ] Project structure — tree of folders with one-line descriptions
+- [x] Project structure — tree of folders with one-line descriptions
   (must include `docs/` and `scripts/`)
 - [ ] Limitations and ethical considerations — must include:
   - Web demo runs TF.js on the browser's WebGL/CPU. Predictions are similar
