@@ -1,4 +1,7 @@
 /data/
+# Trained model weights — do NOT commit to git.
+# Exception: docs/models/ is intentionally tracked (TF.js weights for GitHub Pages).
+# The rules below match only the top-level models/ directory, not docs/models/.
 models/*.keras
 models/*.h5
 .ipynb_checkpoints/
