@@ -10,6 +10,42 @@
 > demo uses OpenCV Haar Cascades. Bounding boxes differ between the two detectors,
 > so predictions are not bit-identical across demos — this is expected behaviour.
 
+## TL;DR
+
+- CNN trained on FER2013 (35 k images, 7 emotions) — live in the browser via TF.js, no install needed
+- Two architectures compared: custom 4-block CNN (60.1 % acc, ~27 ms/frame) vs MobileNetV2 fine-tuned (63.0 % acc, ~29 ms/frame)
+- Receptivity index (0–10) aggregated from emotion predictions over a rolling weighted window
+- FastAPI service + Streamlit demo share the same `src/inference/` — no logic duplicated
+- 4 pedagogical Jupyter notebooks documenting every training decision and failure mode
+
+## Key Features
+
+- **Public web demo** — TF.js in the browser, camera-ready in seconds, no server required
+- **Two full architectures** benchmarked with accuracy, F1 macro, inference latency, and Grad-CAM
+- **Live webcam analysis** at ~8 FPS with face detection, emotion label overlay, and rolling receptivity chart
+- **Receptivity index** smooths noisy per-frame predictions into a stable coaching signal
+- **Video upload mode**: receptivity timeline, session summary, key-moment frames, CSV export
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Headline results](#headline-results)
+- [Architecture](#architecture)
+- [Stack](#stack)
+- [Installation](#installation)
+- [Dataset setup](#dataset-setup)
+- [Running the project](#running-the-project)
+- [Methodology highlights](#methodology-highlights)
+- [Project structure](#project-structure)
+- [Limitations and ethical considerations](#limitations-and-ethical-considerations)
+- [Future improvements](#future-improvements)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+
+---
+
+## Overview
+
 A real-time emotional-receptivity analyser for sales presentations. The
 system reads a video stream (recorded file or live webcam), detects the
 prospect's face, classifies their emotional state with a CNN trained on
@@ -25,6 +61,10 @@ share the same `src/inference/` modules — no logic is duplicated.
 
 This is a Deep Learning class project. Reproducibility, didactic value
 and a clean record of decisions take priority over extreme robustness.
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Headline results
 
@@ -44,6 +84,10 @@ useful spatial features (see *Methodology highlights* below).
 Real-world accuracy on live webcam frames is typically 5–10 points
 lower than the FER2013 test set due to lighting, pose, and motion
 blur differences. Treat ~55 % as the realistic ceiling in the demo.
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Architecture
 
@@ -81,9 +125,9 @@ blur differences. Treat ~55 % as the realistic ceiling in the demo.
                   ▼                                     ▼
          ┌──────────────────┐                ┌──────────────────┐
          │   FastAPI        │                │   Streamlit demo │
-         │   /predict       │                │   recorded video │
-         │   /predict/batch │                │   live webcam    │
-         │   /predict/video │                │                  │
+         │   /predict/image │                │   recorded video │
+         │   /predict/      │                │   live webcam    │
+         │   session        │                │                  │
          └──────────────────┘                └──────────────────┘
 ```
 
@@ -92,6 +136,10 @@ The receptivity mapping uses a hand-crafted heuristic
 neutral = 5, sad = 3, fear = 2, angry/disgust = 1. The sliding window
 defaults to 10 frames and predictions are weighted by softmax
 confidence — a noisy low-confidence prediction barely moves the index.
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Stack
 
@@ -103,6 +151,10 @@ confidence — a noisy low-confidence prediction barely moves the index.
   protobuf >= 3.20 which is incompatible with TF 2.10)
 - **OpenCV 4.9** for face detection and webcam capture
 - **FER2013** dataset (35 887 grayscale 48×48 face images, 7 emotion classes)
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Installation
 
@@ -135,6 +187,10 @@ print(tf.config.list_physical_devices("GPU"))
 If you see a `PhysicalDevice` line, GPU training is ready. Otherwise
 training will fall back to CPU (much slower).
 
+[↑ Back to top](#table-of-contents)
+
+---
+
 ## Dataset setup
 
 The FER2013 dataset is downloaded from Kaggle. Configure the Kaggle API
@@ -148,6 +204,10 @@ After this `data/raw/train/<emotion>/*.jpg` and
 `data/raw/test/<emotion>/*.jpg` should exist (~60 MB raw, ~35 887 images).
 
 `data/raw/` is gitignored — every collaborator must re-download.
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Running the project
 
@@ -221,6 +281,10 @@ pytest tests/ -v
 Tests cover the `FaceDetector`, `ReceptivityIndex`, `EmotionClassifier`
 unit behaviour and the `/health` / `/predict/image` endpoints. Tests
 that require a trained model are skipped if `models/` is empty.
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Methodology highlights
 
@@ -301,6 +365,10 @@ where a one-hot target is incorrect even for a perfect classifier.
 Smoothing softens those targets and typically adds 0.5–1 pt of val
 accuracy at zero cost.
 
+[↑ Back to top](#table-of-contents)
+
+---
+
 ## Project structure
 
 ```
@@ -353,6 +421,10 @@ sales-receptivity-cnn/
     ├── test_inference.py
     └── test_api.py
 ```
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Limitations and ethical considerations
 
@@ -419,6 +491,10 @@ and decision tool must be communicated to every end user.
   Shorter Stage-2 training or stronger augmentation would close it at
   the cost of 0.5–1 pt of best val accuracy.
 
+[↑ Back to top](#table-of-contents)
+
+---
+
 ## Future improvements
 
 These are documented but not implemented:
@@ -435,10 +511,18 @@ These are documented but not implemented:
 - **Cheap CNN-side wins** — test-time augmentation and a 3-seed
   ensemble can each add 1–2 pts without architectural changes.
 
+[↑ Back to top](#table-of-contents)
+
+---
+
 ## License
 
 MIT. See `LICENSE` if/when added — this is a student project intended
 to be shared with classmates and instructors.
+
+[↑ Back to top](#table-of-contents)
+
+---
 
 ## Acknowledgements
 
@@ -446,3 +530,5 @@ to be shared with classmates and instructors.
   available via the [Kaggle Facial Expression Recognition Challenge](https://www.kaggle.com/datasets/msambare/fer2013).
 - MobileNetV2 from Sandler et al., 2018, distributed by Keras
   Applications under the Apache 2.0 license.
+
+[↑ Back to top](#table-of-contents)
