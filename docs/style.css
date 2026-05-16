@@ -80,7 +80,21 @@ input[type=range] {
   width: 90px;
 }
 
-#status-msg { min-height: 1.2em; font-size: 0.78rem; color: #888; margin-top: 0.4rem; }
+#model-progress-wrap {
+  height: 4px;
+  background: #2a2d3a;
+  border-radius: 2px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+#model-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #6366f1;
+  border-radius: 2px;
+  transition: width 0.1s ease;
+}
+#status-msg { min-height: 1.2em; font-size: 0.78rem; color: #888; margin-top: 0.3rem; }
 
 /* ── Stats panel ── */
 

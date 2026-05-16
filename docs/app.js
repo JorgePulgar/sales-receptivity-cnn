@@ -95,6 +95,21 @@ async function loadFaceDetector() {
   faceDetector = await blazeface.load();
 }
 
+// Exponential lerp between two bounding boxes — keeps the overlay from
+// jumping when the detector shifts its estimate by a few pixels.
+const BBOX_SMOOTH  = 0.35;   // 0 = frozen, 1 = instant
+const NO_FACE_HOLD = 8;      // frames to keep last box after detection lapses
+
+function lerpBbox(prev, next) {
+  if (!prev) return next;
+  return {
+    x: prev.x + BBOX_SMOOTH * (next.x - prev.x),
+    y: prev.y + BBOX_SMOOTH * (next.y - prev.y),
+    w: prev.w + BBOX_SMOOTH * (next.w - prev.w),
+    h: prev.h + BBOX_SMOOTH * (next.h - prev.h),
+  };
+}
+
 // Returns { x, y, w, h } for the largest face in the frame, or null.
 async function detectFace(video) {
   if (!faceDetector || video.readyState < 2) return null;
@@ -155,6 +170,8 @@ let lastFrameMs    = 0;
 let currentModel   = 'mobilenet_ft';
 let isLoadingModel = false;
 let isProcessing   = false;
+let lastBbox       = null;   // last confirmed face bbox
+let noFaceFrames   = 0;      // consecutive frames with no detection
 
 const emotionCounts = Object.fromEntries(LABELS.map(l => [l, 0]));
 const riHistory     = [];  // [{ t: seconds, v: index }]
@@ -165,15 +182,28 @@ async function loadEmotionModel(name) {
   if (isLoadingModel) return;
   isLoadingModel = true;
   emotionModel   = null;
-  setStatus(`Loading ${name}…`);
+  lastBbox       = null;
+  noFaceFrames   = 0;
+
+  progressWrap.style.display = 'block';
+  progressBar.style.width    = '0%';
+  setStatus(`Loading ${name}… 0%`);
 
   try {
-    emotionModel = await tf.loadLayersModel(`models/${name}/model.json`);
+    emotionModel = await tf.loadLayersModel(`models/${name}/model.json`, {
+      onProgress: (fraction) => {
+        const pct = Math.round(fraction * 100);
+        progressBar.style.width = `${pct}%`;
+        setStatus(`Loading ${name}… ${pct}%`);
+      },
+    });
     setStatus('');
   } catch (e) {
     setStatus(`Failed to load ${name}: ${e.message}`, true);
   } finally {
-    isLoadingModel = false;
+    isLoadingModel             = false;
+    progressWrap.style.display = 'none';
+    progressBar.style.width    = '0%';
   }
 
   LABELS.forEach(l => (emotionCounts[l] = 0));
@@ -199,7 +229,15 @@ async function processFrame(now) {
 
     if (!emotionModel || isLoadingModel) return;
 
-    const bbox = await detectFace(videoEl);
+    const detected = await detectFace(videoEl);
+    if (detected) {
+      lastBbox     = lerpBbox(lastBbox, detected);
+      noFaceFrames = 0;
+    } else {
+      noFaceFrames++;
+      if (noFaceFrames >= NO_FACE_HOLD) lastBbox = null;
+    }
+    const bbox = lastBbox;
 
     if (!bbox) {
       ctx.fillStyle = '#f59e0b';
@@ -343,6 +381,8 @@ const riValueEl     = document.getElementById('ri-value');
 const riBarEl       = document.getElementById('ri-bar');
 const riChartEl     = document.getElementById('ri-chart');
 const emChartEl     = document.getElementById('em-chart');
+const progressWrap  = document.getElementById('model-progress-wrap');
+const progressBar   = document.getElementById('model-progress-bar');
 
 function setStatus(msg, error = false) {
   statusEl.textContent = msg;
