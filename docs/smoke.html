@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TF.js smoke test — cnn_custom</title>
+  <style>
+    body { font-family: monospace; padding: 2rem; background: #111; color: #eee; }
+    h2   { color: #7cf; }
+    pre  { background: #222; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+    .ok  { color: #4f4; }
+    .err { color: #f44; }
+  </style>
+</head>
+<body>
+  <h2>TF.js smoke test — cnn_custom</h2>
+  <p>
+    Loads <code>models/cnn_custom/model.json</code>, runs a forward pass on a
+    hardcoded 48×48 gray image (all pixels = 128 → normalised to 0.502),
+    and logs the 7-class softmax vector.<br>
+    <strong>Serve this file with a local HTTP server</strong> (e.g.
+    <code>python -m http.server 8080</code> from <code>docs/</code>) — it
+    will not load via <code>file://</code> due to CORS restrictions on fetch.
+  </p>
+  <pre id="log">Loading model…</pre>
+
+  <!-- TF.js 3.x — same major line as tensorflowjs Python 3.21.0 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
+  <script>
+    const LABELS   = ['angry','disgust','fear','happy','sad','surprise','neutral'];
+    const LOG_EL   = document.getElementById('log');
+
+    function log(msg, cls) {
+      const line = document.createElement('span');
+      if (cls) line.className = cls;
+      line.textContent = msg + '\n';
+      LOG_EL.appendChild(line);
+      console.log(msg);
+    }
+
+    // Clear placeholder text on first real log.
+    LOG_EL.textContent = '';
+
+    async function runSmokeTest() {
+      log(`TF.js version : ${tf.version.tfjs}`);
+
+      // ------------------------------------------------------------------ //
+      // Hardcoded test image: 48×48, all pixels = 128 (uint8).
+      // After normalisation: 128 / 255 ≈ 0.50196.
+      // To reproduce in Python:
+      //   import numpy as np
+      //   from src.inference.emotion_classifier import EmotionClassifier
+      //   from src import config
+      //   from pathlib import Path
+      //   clf = EmotionClassifier(Path('models/cnn_custom.keras'),
+      //                           input_size=(48,48), use_rgb=False)
+      //   face = np.full((48, 48), 128, dtype=np.uint8)
+      //   label, conf, probs = clf.predict(face)
+      //   print(probs)
+      // ------------------------------------------------------------------ //
+      const PIXEL_VALUE = 128;
+      const H = 48, W = 48;
+
+      log('Loading model from models/cnn_custom/model.json …');
+      let model;
+      try {
+        model = await tf.loadLayersModel('models/cnn_custom/model.json');
+      } catch (e) {
+        log('ERROR loading model: ' + e.message, 'err');
+        return;
+      }
+      log('Model loaded.', 'ok');
+
+      // input shape (null, 48, 48, 1)
+      const inputShape = model.inputs[0].shape;
+      log(`Input shape : [${inputShape}]`);
+      log(`Output shape: [${model.outputs[0].shape}]`);
+
+      // Build input tensor: (1, 48, 48, 1), normalised [0,1].
+      const rawData = new Float32Array(H * W).fill(PIXEL_VALUE / 255.0);
+      const inputTensor = tf.tensor4d(rawData, [1, H, W, 1]);
+
+      log(`\nRunning prediction on 48×48 gray image (all pixels = ${PIXEL_VALUE}) …`);
+      const outputTensor = model.predict(inputTensor);
+      const probs = await outputTensor.data();   // Float32Array length 7
+
+      inputTensor.dispose();
+      outputTensor.dispose();
+
+      log('\nSoftmax probabilities:');
+      const probArr = Array.from(probs);
+      LABELS.forEach((lbl, i) => {
+        const bar = '█'.repeat(Math.round(probArr[i] * 40));
+        log(`  ${lbl.padEnd(8)} ${probArr[i].toFixed(6)}  ${bar}`);
+      });
+
+      const maxIdx  = probArr.indexOf(Math.max(...probArr));
+      log(`\nPredicted class : ${LABELS[maxIdx]}`, 'ok');
+      log(`Confidence      : ${(probArr[maxIdx] * 100).toFixed(2)}%`, 'ok');
+      log('\nSmoke test complete — compare these values against the Python output.', 'ok');
+    }
+
+    runSmokeTest().catch(e => {
+      log('Unhandled error: ' + e, 'err');
+      console.error(e);
+    });
+  </script>
+</body>
+</html>
